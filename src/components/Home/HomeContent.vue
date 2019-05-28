@@ -15,7 +15,8 @@
               <van-list >
                 <van-swipe-cell :right-width="span_width"  v-for="(item,index) in MessageList" :key="index"  >
                     <van-cell-group >
-                        <base-panel @click="detail(item)" :title=item.sender :desc=item.title|ellipsis :status=item.status  :time="item.time"></base-panel>
+                       <base-cell clickable :title=item.sender :value=item.status  :time=item.time :label=item.title|ellipsis></base-cell>
+                        <!-- <base-panel @click="detail(item)" :title=item.sender :desc=item.title|ellipsis :status=item.status  :time="item.time"></base-panel> -->
                     </van-cell-group>
                 <span slot="right" >
                   <div id="right_span">
@@ -35,9 +36,11 @@
 <script>
 import eventBus from '../../utils/eventBus'
 import BasePanel from '../Common/BasePanel' 
+import BaseCell from '../Common/BaseCell'
 export default {
   components:{
-    BasePanel
+    BasePanel,
+    BaseCell
   },
   data() {
       return {

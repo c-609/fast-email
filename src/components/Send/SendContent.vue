@@ -12,7 +12,8 @@
               <van-list v-for="(item,index) in MessageList" :key="index" @click="get(item.title)">
                 <van-swipe-cell :right-width="span_width"  >
                     <van-cell-group>
-                        <van-cell clickable  is-link :title=item.title :value=item.status size="large" :label=item.desc  />  
+                      <base-cell clickable :title=item.title :value=item.status :time=item.time  :label=item.desc></base-cell>
+                        <!-- <van-cell clickable  is-link :title=item.title :value=item.status size="large" :label=item.desc  />   -->
                         <!-- <van-panel :title=item.title :desc=item.desc :status=item.status clickable > </van-panel> -->
                     </van-cell-group>
                 <span slot="right" >
@@ -31,7 +32,11 @@
 </template>
 
 <script>
+import BaseCell from '../Common/BaseCell'
 export default {
+    components:{
+      BaseCell
+    },
     data() {
         return {
             span_width:130,
@@ -42,21 +47,25 @@ export default {
                 {
                 title: "信息院全体同学" ,
                 desc: "香港回归祖国......", 
-                status:"12/20"
+                status:"12/20",
+                time:"18:15"
                 },
                 {
                 title:"信息院计科班" ,
                 desc:" 澳门回归祖国......", 
-                status:"13/20"
+                status:"13/20",
+                time:"18:15"
                 },{
                 title: "信息院电子班" ,
                 desc: "香港回归祖国......", 
-                status:"14/40"
+                status:"14/40",
+                time:"18:15"
                 },
                 {
                 title:"信息院网工班" ,
                 desc:" 澳门回归祖国......", 
-                status:"14/50"
+                status:"14/50",
+                time:"18:15"
                 }
             ],
         }

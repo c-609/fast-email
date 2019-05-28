@@ -6,16 +6,16 @@
       </van-nav-bar>
     </div>
     <div class="mine_content">
-      <van-cell-group>
-      <van-cell title="姓名" icon="manager-o" is-link value="张全蛋" size="large"/>
+    
+      <van-cell title="姓名" icon="manager-o" clickable value="张全蛋" size="large"/>
       <div class="blank"></div>
       <van-cell title="身份" icon="description" is-link arrow-direction="down" size="large" value="多条" @click="shenfeng" />
-      <van-cell title="电话1" icon="phone-circle-o"  is-link value="0732-84802007" size="large"/>
       <div class="blank"></div>
-      <van-cell title="电话2" icon="phone-circle-o" is-link value="0732-84802007" size="large"/>
+      <van-cell title="电话1" icon="phone-circle-o" clickable value="0732-84802007" size="large"/>
+      <van-cell title="电话2" icon="phone-circle-o" clickable value="0732-84802007" size="large"/>
       <div class="blank"></div>
-      </van-cell-group>
-       <van-cell title="退出登录" icon="manager-o" size="large"/>
+     
+       <van-cell title="退出登录" clickable icon="manager-o" size="large"/>
        <div class="blank2"></div>
           <van-popup v-model="show" position="left" class="shenfeng">
             身份信息
@@ -62,7 +62,7 @@ export default {
 }
 .blank{
   height: 10px;
-  background-color:#F2F2F2;
+  
  
 }
 

@@ -11,27 +11,28 @@
               <van-search 
                 v-model="value"
                 placeholder="请输入搜索关键词"
-                show-action
+               
                 shape="round"
                 @search="onSearch"
                 class="search"
               >
-                <div slot="action" @click="onSearch">搜索</div>
+                
               </van-search> 
               <div class="blank"></div>
               <van-cell title="筛选" is-link :value="select_time+select_content"   class="shaixuan" @click="openprop()"/>
               <div class="blank"> </div>
-            <van-popup v-model="show" position="left" class="popup">
-
-              <van-datetime-picker
+               <van-popup v-model="show" position="left" class="popup">
+                  根据时间筛选
+                 <van-datetime-picker
                   
                 cancel-button-text="s"
                 v-model="currentDate"
                 type="year-month"
-                :min-date="minDate"
+                
                 @change="timeChange"
               />
               <br/><br/><br/>
+              根据身份筛选
               <van-picker :columns="columns" @change="onChange" :default-index="2"/>
             </van-popup>
 
@@ -40,7 +41,8 @@
               <van-list v-for="(item,index) in MessageList" :key="index" @click="get(item.title)">
                 <van-swipe-cell :right-width="span_width"  >
                     <van-cell-group>
-                        <van-panel :title=item.title :desc=item.desc :status=item.status > </van-panel>
+                      <base-cell clickable :title=item.title :value=item.status  :time=item.time :label=item.desc></base-cell>
+                        <!-- <van-panel :title=item.title :desc=item.desc :status=item.status > </van-panel> -->
                     </van-cell-group>
                 <span slot="right" >
                   <div id="right_span">
@@ -58,7 +60,11 @@
 </template>
 
 <script>
+import BaseCell from '../Common/BaseCell'
 export default {
+    components:{
+      BaseCell
+    },
     data() {
         return {
             currentDate: new Date(),
@@ -76,58 +82,70 @@ export default {
                 {
                 title: "信息院王老师" ,
                 desc: "香港回归祖国......", 
-                status:"未读"
+                status:"未读",
+                time:"18:15"
                 },
                 {
                 title:"信息院刘老师" ,
                 desc:" 澳门回归祖国......", 
-                status:"未读"
+                status:"未读",
+                time:"18:15"
                 },{
                 title: "信息院王老师" ,
                 desc: "香港回归祖国......", 
-                status:"未读"
+                status:"未读",
+                time:"18:15"
                 },
                 {
                 title:"信息院刘老师" ,
                 desc:" 澳门回归祖国......", 
-                status:"未读"
+                status:"未读",
+                time:"18:15"
                 },
                 {
                 title: "信息院王老师" ,
                 desc: "香港回归祖国......", 
-                status:"未读"
+                status:"未读",
+                time:"18:15"
                 },
                 {
                 title:"信息院刘老师" ,
                 desc:" 澳门回归祖国......", 
-                status:"未读"
+                status:"未读",
+                time:"18:15"
                 },{
                 title: "信息院王老师" ,
                 desc: "香港回归祖国......", 
-                status:"未读"
+                status:"未读",
+                time:"18:15"
                 },
                 {
                 title:"信息院刘老师" ,
                 desc:" 澳门回归祖国......", 
-                status:"未读"
+                status:"未读",
+                time:"18:15"
                 },{
                 title: "信息院王老师" ,
                 desc: "香港回归祖国......", 
-                status:"未读"
+                status:"未读",
+                time:"18:15"
                 },
                 {
                 title:"信息院刘老师" ,
                 desc:" 澳门回归祖国......", 
-                status:"未读"
+                status:"未读",
+                time:"18:15"
                 },{
                 title: "信息院王老师" ,
                 desc: "香港回归祖国......", 
-                status:"未读"
+                status:"未读",
+                time:"18:15"
                 },
                 {
                 title:"信息院刘老师" ,
                 desc:" 澳门回归祖国......", 
-                status:"未读"
+                status:"未读",
+                time:"18:15"
                 }  
             ],
         }
