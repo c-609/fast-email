@@ -64,7 +64,15 @@ export default {
               time:"2019/5/23 16:33",
               content:"",
               status:"未读"
-              } 
+              } ,
+              {
+              sender: "教务处科长" ,
+              title: "香港回归祖国通知香港回归祖国通知香港回归祖国通知",
+              recipient:"教务处老师",
+              time:"2019/5/23 16:33",
+              content:"",
+              status:"未读"
+              }
           ],
       }
   },

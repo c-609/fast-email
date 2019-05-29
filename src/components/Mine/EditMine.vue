@@ -10,7 +10,7 @@
     <div class="message_content_div">
         
              <van-field v-model="message_title"   clearable label="姓名" placeholder="请输入姓名" />
-           
+            <van-cell title="身份" is-link value="查看您的发件身份" />
             <div class="blank"></div>
              <van-field v-model="message_title"   clearable label="电话" placeholder="请输入电话" />
              <div class="blank"></div>
@@ -39,10 +39,10 @@ export default {
 </script>
 
 <style >
-.content_nav_bar{
+/* .content_nav_bar{
   background: #F2F2F2;
   height: 50px;
-}
+} */
 .blank{
   height: 10px;
 
