@@ -16,36 +16,74 @@
     <div class="message_content_div">
       <van-cell-group>
         <van-field v-model="message_title" clearable label="标题" placeholder="请输入标题"/>
-        <van-cell class="send-identify" title="发件身份">
+        <van-cell   class="send-identify" title="发件身份">
           <van-dropdown-menu>
             <van-dropdown-item v-model="senderIdentity" :options="senderIdentityList"/>
           </van-dropdown-menu>
         </van-cell>
-        <van-cell class="send-identify" title="收件身份" value="请选择收件人身份  ">
-          <van-dropdown-menu>
-            <van-dropdown-item>
-              <van-checkbox-group v-model="recipientIdentityIds">
-                <van-checkbox
-                  v-for="(item, index) in recipientIdentityList"
-                  :key="item"
-                  :name="item"
-                >复选框 {{ item }}</van-checkbox>
-              </van-checkbox-group>
-            </van-dropdown-item>
-          </van-dropdown-menu>
-        </van-cell>
+        <van-cell  title="收件身份" is-link value="请选择收件人身份" @click="choseIdentify()"/>
         <div class="blank" style="height: 10px; background-color:#F2F2F2;"></div>
         <van-cell title="通知内容："></van-cell>
         <van-field v-model="message_content" type="textarea" placeholder="请输入通知内容" rows="15"/>
       </van-cell-group>
+      <van-popup v-model="show" position="left" :overlay="true" class="choseId">
+        <font >请选择收件人身份</font>
+        <van-button type="info" size="small" class="IdButton" @click="choseIdOk">确认</van-button>
+        <el-tree
+          :data="IdTree"
+          show-checkbox
+          node-key="id"
+          default-expand-all="true"
+         >
+        </el-tree>
+    </van-popup>
     </div>
+    
   </div>
 </template>
 
 <script>
+
 export default {
+ 
   data() {
     return {
+      IdTree:[{
+          id: 1,
+          label: '一级 1',
+          children: [{
+            id: 4,
+            label: '二级 1-1',
+            children: [{
+              id: 9,
+              label: '三级 1-1-1'
+            }, {
+              id: 10,
+              label: '三级 1-1-2'
+            }]
+          }]
+        }, {
+          id: 2,
+          label: '一级 2',
+          children: [{
+            id: 5,
+            label: '二级 2-1'
+          }, {
+            id: 6,
+            label: '二级 2-2'
+          }]
+        }, {
+          id: 3,
+          label: '一级 3',
+          children: [{
+            id: 7,
+            label: '二级 3-1'
+          }, {
+            id: 8,
+            label: '二级 3-2'
+          }]
+        }],
+      show:false,
       message_title: "",
       message_content: "",
       senderIdentity: 0,
@@ -66,6 +104,12 @@ export default {
   },
 
   methods: {
+    choseIdOk(){
+      this.show=false
+    },
+    choseIdentify(){
+      this.show=true;
+    },
     onClickLeft() {
       this.$router.go(-1);
     },
@@ -80,6 +124,14 @@ export default {
 </script>
 
 <style >
+.IdButton{
+    margin-left: 280px;
+    width: 70px
+}
+.choseId{
+  height: 100%;
+  width: 100%
+}
 .send-message {
   height: 100%;
   background-color: white;
