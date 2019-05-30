@@ -1,118 +1,116 @@
 <template >
   <div class="personal">
-     <div >
-      <van-nav-bar title="我的" :fixed="true" class="content_nav_bar"  @click-right="onClickRight" >
-        <van-icon name="edit" slot="right" />
+    <div>
+      <van-nav-bar title="我的" :fixed="true" class="content_nav_bar" @click-right="onClickRight">
+        <van-icon name="edit" slot="right"/>
       </van-nav-bar>
     </div>
     <div class="mine_content">
       <van-cell-group>
-      <van-cell title="姓名" icon="manager-o" is-link value="张全蛋" size="large"/>
-      <div class="blank"></div>
-     
-     <van-cell class="identify" icon="idcard">
-      <van-dropdown-menu  >
-        <van-dropdown-item title="身份" :options="option1" />
-      </van-dropdown-menu>
-      </van-cell>
-      <div class="blank"></div>
-      <van-cell title="电话1" icon="phone-circle-o"  is-link value="0732-84802007" size="large"/>
-      <div class="blank"></div>
-      <van-cell title="电话2" icon="phone-circle-o" is-link value="0732-84802007" size="large"/>
-      <div class="blank"></div>
-      </van-cell-group>
-       <van-cell title="退出登录" icon="manager-o" size="large"/>
-       <div class="blank2"></div>
-          <van-popup v-model="show" position="left" class="shenfeng">
-            身份信息
-               <van-picker :columns="columns"  />
-          </van-popup>
-      </div>
-    
-    
-      
+        <van-cell title="姓名" icon="manager-o" :value="userName" size="large"/>
+        <div class="blank"></div>
 
+        <van-cell icon="idcard">
+          <van-dropdown-menu class="identity">
+            <van-dropdown-item class="identity-drop" title="身份" :options="option1"/>
+          </van-dropdown-menu>
+        </van-cell>
+        <div class="blank"></div>
+        <van-cell title="电话1" icon="phone-circle-o" is-link value="0732-84802007" size="large"/>
+        <div class="blank"></div>
+        <van-cell title="电话2" icon="phone-circle-o" is-link value="0732-84802007" size="large"/>
+        <div class="blank"></div>
+      </van-cell-group>
+      <van-cell title="退出登录" icon="manager-o" size="large"/>
+      <div class="blank2"></div>
+      <van-popup v-model="show" position="left" class="shenfeng">
+        身份信息
+        <van-picker :columns="columns"/>
+      </van-popup>
+    </div>
   </div>
 </template>
 
 <script>
-import eventBus from '../../utils/eventBus'
+import eventBus from "../../utils/eventBus";
 export default {
-    data() {
-        return {
-            value1: 0,
-      value2: 'a',
+  data() {
+    return {
+      value1: 0,
+      value2: "a",
       option1: [
-        { text: '全部商品', value: 0 },
-        { text: '新款商品', value: 1 },
-        { text: '活动商品', value: 2 },
-        { text: '全部商品', value: 0 },
-        { text: '新款商品', value: 1 },
-        { text: '活动商品', value: 2 },
-        { text: '全部商品', value: 0 },
-        { text: '新款商品', value: 1 },
-        { text: '活动商品', value: 2 },
-        { text: '全部商品', value: 0 },
-        { text: '新款商品', value: 1 },
-        { text: '活动商品', value: 2 },
-        { text: '全部商品', value: 0 },
-        { text: '新款商品', value: 1 },
-        { text: '活动商品', value: 2 }
+        { text: "全部商品", value: 0 },
+        { text: "新款商品", value: 1 },
+        { text: "活动商品", value: 2 },
+        { text: "全部商品", value: 0 },
+        { text: "新款商品", value: 1 },
+        { text: "活动商品", value: 2 },
+        { text: "全部商品", value: 0 },
+        { text: "新款商品", value: 1 },
+        { text: "活动商品", value: 2 },
+        { text: "全部商品", value: 0 },
+        { text: "新款商品", value: 1 },
+        { text: "活动商品", value: 2 },
+        { text: "全部商品", value: 0 },
+        { text: "新款商品", value: 1 },
+        { text: "活动商品", value: 2 }
       ],
-            show:false,
-             columns: ['信息院老师', '信息院院长', '信息院书记']
-        }
+      show: false,
+      columns: ["信息院老师", "信息院院长", "信息院书记"]
+    };
+  },
+
+  methods: {
+    shenfeng() {
+      this.show = true;
     },
-  
-  
-    methods:{
-      shenfeng(){
-        this.show=true
-      },
-      onClickRight(){
-        this.$router.push("/editmine")
-      }
+    onClickRight() {
+      this.$router.push("/editmine");
     }
-}
+  }
+};
 </script>
 
-<style scoped>
-.personal{
+<style >
+.personal {
   height: 100%;
-  background-color: white
+  background-color: white;
 }
-.content_nav_bar{
-  background: #F2F2F2;
+.content_nav_bar {
+  background: #f2f2f2;
   height: 50px;
 }
-.mine_content{
-  padding-top: 50px
+.mine_content {
+  padding-top: 50px;
 }
-.identify{
+.identity {
   padding: 0;
 }
-.identify .van-cell__left-icon{
+.identity .van-cell__left-icon {
   padding: 14px 0 0 15px;
 }
-.identify .van-dropdown-menu__title{
-  left: -45px;
+.identity .van-dropdown-menu {
+  height: 25px;
+}
+.identity .van-dropdown-menu__title {
+  left: -40px;
   padding-right: 200px;
+  height: 25px;
 }
-.identify .van-dropdown-menu__title::after{
-  top:5px;
-  left:290px
+.van-cell__value--alone {
+  height: 25px;
 }
-.van-hairline--top-bottom::after {
-    border-width: 0 0;
+.identity .van-dropdown-menu__title::after {
+  left: 290px;
 }
-.van-cell:not(:last-child)::after {
+.mine_content .van-hairline--top-bottom::after {
+  border-width: 0 0;
+}
+.mine_content .van-cell:not(:last-child)::after {
   border-bottom-width: 0px;
 }
-.blank{
+.blank {
   height: 10px;
-  background-color:#F2F2F2;
- 
+  background-color: #f2f2f2;
 }
-
-
 </style>
