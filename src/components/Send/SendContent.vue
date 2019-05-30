@@ -13,8 +13,7 @@
                 <van-swipe-cell :right-width="span_width"  >
                     <van-cell-group>
                       <base-cell clickable :title=item.title :value=item.status :time=item.time  :label=item.desc></base-cell>
-                        <!-- <van-cell clickable  is-link :title=item.title :value=item.status size="large" :label=item.desc  />   -->
-                        <!-- <van-panel :title=item.title :desc=item.desc :status=item.status clickable > </van-panel> -->
+                        
                     </van-cell-group>
                 <span slot="right" >
                   <div id="right_span">

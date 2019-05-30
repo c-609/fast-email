@@ -1,6 +1,6 @@
 <template>
     <div class="base-cell">
-        <van-cell :title="title" :value="value" :label="label" :clickable="clickable" :size="size" />
+        <van-cell :title="title" :value="value" :label="label" :clickable="clickable" :size="size" @click="click"/>
         <span class="cell-time">{{time}}</span>
     </div>
 </template>
@@ -26,7 +26,12 @@ export default {
         time:{
             type:String
         }
-    }
+    },
+    methods: {
+        click(){
+            this.$emit('click');
+        }
+    },
 }
 </script>
 
