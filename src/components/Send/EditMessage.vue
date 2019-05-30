@@ -11,12 +11,20 @@
              <van-field v-model="message_title"   clearable label="标题" placeholder="请输入标题" />
                 <van-cell class="send-identify" title="发件身份" >
                   <van-dropdown-menu>
-                   <van-dropdown-item v-model="identify" :options="identifyList" />
+                   <van-dropdown-item v-model="senderIdentity" :options="senderIdentityList" />
                   </van-dropdown-menu>
                 </van-cell>
                 <van-cell class="send-identify" title="收件身份" value="请选择收件人身份  " >
                   <van-dropdown-menu>
-                   <van-dropdown-item v-model="identify" :options="identifyList" />
+                    
+                   <van-dropdown-item >
+                     <van-checkbox-group v-model="recipientIdentityIds">
+                        <van-checkbox
+                          v-for="(item, index) in recipientIdentityList" :key="item" :name="item">
+                            复选框 {{ item }}
+                        </van-checkbox>
+                      </van-checkbox-group>
+                   </van-dropdown-item>
                   </van-dropdown-menu>
                 </van-cell>
                 <div class="blank" style="height: 10px; background-color:#F2F2F2;"></div>
@@ -36,23 +44,35 @@
 <script>
 export default {
   data() {
-      return {
-          message_content:'',
-          identify:0,
-          identifyList: [
-            { text: '全部商品', value: 0 },
-            { text: '新款商品', value: 1 },
-            { text: '活动商品', value: 2 }
-          ],
-      }
+    return {
+      message_title:'',
+      message_content:'',
+      senderIdentity:0,
+      senderIdentityList: [
+        { text: '全部商品', value: 0 },
+        { text: '新款商品', value: 1 },
+        { text: '活动商品', value: 2 }
+      ],
+      recipientIdentityIds:'',
+      recipientIdentityList: [
+        { text: '全部商品', value: 0 },
+        { text: '新款商品', value: 1 },
+        { text: '活动商品', value: 2 }
+      ],
+       list: ['a', 'b', 'c'],
+      result: ['a', 'b']
+    }
   },
 
   methods:{
     sendMessage(){
-        alert(this.message_content)
+        console.log(this.message_title);
+        console.log(this.message_content);
+        console.log(this.senderIdentity);
+        console.log(this.recipientIdentity);
     }
         
-    }
+  }
 }
 </script>
 
