@@ -11,7 +11,7 @@
         <van-field left-icon="contact" type="password" v-model="password" placeholder="请输入密码" class="passText"/>
         <van-field disabled style="height:0px"></van-field>
     </div>
-    <van-button type="danger" class="loginBtn" @click="submit">登录</van-button>
+    <van-button type="danger" class="loginBtn" @click="submit" :loading=loading  loading-type="spinner" loading-text="登录中..."> 登录</van-button>
     </div>
   </div>
   
@@ -23,13 +23,15 @@ export default {
   
  data(){
      return{
-         acount:'admin1',
-         password:'123',
+         loading:false,
+         acount:'student1',
+         password:'456',
      }
  },
  methods:{
    
    submit(){
+     this.loading=true
      if(this.acount==''&&this.password==''){
         this.$notify('请输入账号密码');
      }else if(this.acount == ''){

@@ -24,6 +24,7 @@ export default {
     created(){
       this.$router.push('/homecontent')
     },
+
     methods:{
       change(active){
         if(active == 1){

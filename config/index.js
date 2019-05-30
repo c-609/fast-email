@@ -6,22 +6,21 @@ const path = require('path')
 
 module.exports = {
   dev: {
-
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      // '/': {
-      //   target: 'http://119.29.101.166:8088',
-      //   // changeOrigin: true,
-      //   pathRewrite: {
-      //     '^/': ''
-      //   }
-      // },
-      // '/ws/*': {
-      //   target: 'http://119.29.101.166:8088',
-      //   ws: true
-      // }
+      '/': {
+        target: 'http://119.29.101.166:8087',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/': ''
+        }
+      },
+      '/ws/*': {
+        target: 'http://119.29.101.166:8087',
+        ws: true
+      }
     },
 
     // Various Dev Server settings
