@@ -77,4 +77,7 @@ export default {
 .send-identify .van-hairline--top-bottom::after {
     border-width: 0;
 }
+.message_content_div .van-cell:not(:last-child)::after {
+  border-bottom: 0px;
+}
 </style>

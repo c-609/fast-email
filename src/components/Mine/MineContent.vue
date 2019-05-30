@@ -76,14 +76,17 @@ export default {
 }
 </script>
 
-<style >
-
+<style scoped>
+.personal{
+  height: 100%;
+  background-color: white
+}
 .content_nav_bar{
   background: #F2F2F2;
   height: 50px;
 }
 .mine_content{
-  margin-top: 50px
+  padding-top: 50px
 }
 .identify{
   padding: 0;
@@ -98,6 +101,12 @@ export default {
 .identify .van-dropdown-menu__title::after{
   top:5px;
   left:290px
+}
+.van-hairline--top-bottom::after {
+    border-width: 0 0;
+}
+.van-cell:not(:last-child)::after {
+  border-bottom-width: 0px;
 }
 .blank{
   height: 10px;
