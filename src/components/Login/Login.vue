@@ -54,16 +54,16 @@ export default {
 <style>
 .login-container{
   margin-left: 30px;
-  margin-top: 100px;
+  margin-top: -25px;
 }
 .logo{
   width:35px;
   float: left;
+  padding-top: 130px;
 }
 .text{
   font-size: 23px;
-  
-  
+  padding-top: 130px;
 }
 .loginForm  .van-hairline--top-bottom::after{
   border-width: 0px 0px 2px 0px;

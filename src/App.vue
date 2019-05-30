@@ -1,33 +1,29 @@
 <template>
   <div id="app">
-     <router-view>
-    </router-view>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App'
-}
+  name: "App"
+};
 </script>
 
 <style >
-/* .body{
- position: fixed;
- text-align: center;
-top: 0;
-background: tomato;
-left: 0;
- 
-width: 100%;
+/* .body {
+  position: fixed;
+  text-align: center;
+  top: 0;
+  background: tomato;
+  left: 0;
 
-height: 100%;
-margin-bottom: 50px
+  width: 100%;
 
-} */
-/* .html{
+  height: 100%;
+  margin-bottom: 50px;
+}
+.html {
   overflow: hidden;
- 
 } */
-
 </style>
