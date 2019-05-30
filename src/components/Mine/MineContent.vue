@@ -85,6 +85,7 @@ export default {
 }
 .identity {
   padding: 0;
+  height: 25px;
 }
 .identity .van-cell__left-icon {
   padding: 14px 0 0 15px;
@@ -97,9 +98,9 @@ export default {
   padding-right: 200px;
   height: 25px;
 }
-.van-cell__value--alone {
+/* .van-cell__value--alone {
   height: 25px;
-}
+} */
 .identity .van-dropdown-menu__title::after {
   left: 290px;
 }
