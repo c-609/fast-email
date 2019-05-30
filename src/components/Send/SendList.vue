@@ -14,7 +14,7 @@
                 <base-cell
                   clickable
                   :title="item.title"
-                  :value="item.status"
+                  :value="item.noReadNumber"
                   :time="item.time"
                   :label="item.desc"
                   @click="clickMessage(item)"
@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import eventBus from "../../utils/eventBus";
 import BaseCell from "../Common/BaseCell";
 export default {
   components: {
@@ -46,29 +47,30 @@ export default {
       active: 0,
       count: 0,
       isLoading: false,
+      message: "",
       MessageList: [
         {
           title: "信息院全体同学",
           desc: "香港回归祖国......",
-          status: "12/20",
+          noReadNumber: "12/20",
           time: "18:15"
         },
         {
           title: "信息院计科班",
           desc: " 澳门回归祖国......",
-          status: "13/20",
+          noReadNumber: "13/20",
           time: "18:15"
         },
         {
           title: "信息院电子班",
           desc: "香港回归祖国......",
-          status: "14/40",
+          noReadNumber: "14/40",
           time: "18:15"
         },
         {
           title: "信息院网工班",
           desc: " 澳门回归祖国......",
-          status: "14/50",
+          noReadNumber: "14/50",
           time: "18:15"
         }
       ]
@@ -81,11 +83,17 @@ export default {
       div.style.width || div.clientWidth || div.offsetWidth || div.scrollWidth;
     this.span_width = width;
   },
+  beforeDestroy() {
+    eventBus.$emit("sendMsgContent", this.message);
+  },
   methods: {
     onClickRight() {
       this.$router.push("/editmessage");
     },
-    clickMessage(item) {},
+    clickMessage(message) {
+      this.message = message;
+      this.$router.push("/sendmsgcontent");
+    },
     handleTop(index) {
       alert("置顶");
     },

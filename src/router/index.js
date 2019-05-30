@@ -9,6 +9,7 @@ import Message from './../components/Common/Message.vue'
 import MineContent from './../components/Mine/MineContent.vue'
 import EditMessage from './../components/Send/EditMessage.vue'
 import EditMine from './../components/Mine/EditMine.vue'
+import SendMsgContent from './../components/Send/SendMsgContent.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -31,6 +32,11 @@ export default new Router({
       path: '/editmessage',
       name: 'EditMessage',
       component: EditMessage
+    },
+    {
+      path: '/sendmsgcontent',
+      name: 'SendMsgContent',
+      component: SendMsgContent
     },
     {
       path: '/home',
