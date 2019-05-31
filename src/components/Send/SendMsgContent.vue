@@ -50,7 +50,7 @@ export default {
       recipient: "",
       time: "",
       content: "",
-      noReadNumber: "",
+      readRatio: "",
 
       activeName2: "2",
       noRead: "未读人员：",
@@ -65,8 +65,8 @@ export default {
       this.recipient = res.recipient;
       this.time = res.time;
       // this.content = res.content;
-      this.noReadNumber = res.noReadNumber;
-      this.noRead += res.noReadNumber;
+      this.readRatio = res.readRatio;
+      this.noRead += res.readRatio;
     });
   },
   methods: {

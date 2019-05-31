@@ -14,7 +14,7 @@
                 <base-cell
                   clickable
                   :title="item.title"
-                  :value="item.noReadNumber"
+                  :value="item.readRatio"
                   :time="item.time"
                   :label="item.desc"
                   @click="clickMessage(item)"
@@ -52,25 +52,25 @@ export default {
         {
           title: "信息院全体同学",
           desc: "香港回归祖国......",
-          noReadNumber: "12/20",
+          readRatio: "12/20",
           time: "18:15"
         },
         {
           title: "信息院计科班",
           desc: " 澳门回归祖国......",
-          noReadNumber: "13/20",
+          readRatio: "13/20",
           time: "18:15"
         },
         {
           title: "信息院电子班",
           desc: "香港回归祖国......",
-          noReadNumber: "14/40",
+          readRatio: "14/40",
           time: "18:15"
         },
         {
           title: "信息院网工班",
           desc: " 澳门回归祖国......",
-          noReadNumber: "14/50",
+          readRatio: "14/50",
           time: "18:15"
         }
       ]

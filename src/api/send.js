@@ -1,9 +1,22 @@
 import request from 'axios'
 
-export function sendMsg({senderId, content, recipientIds){
+//发送消息
+export function sendMsg(senderId, content, recipientIds) {
   return request({
     url: '/msg/process/send',
-    method:'post',
-    params:{senderId, content, recipientIds}
+    method: 'post',
+    params: {
+      senderId,
+      content,
+      recipientIds
+    }
   })
 }
+
+//获取用户读取比列
+// export function getReadRatio(mid) {
+//   return request({
+//     url: '/msg/proportion/' + mid,
+//     method: 'post'
+//   })
+// }
