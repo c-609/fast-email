@@ -36,6 +36,7 @@ import eventBus from "../../utils/eventBus";
 export default {
   data() {
     return {
+      userName: this.$store.state.userName,
       value1: 0,
       value2: "a",
       option1: [
@@ -59,7 +60,6 @@ export default {
       columns: ["信息院老师", "信息院院长", "信息院书记"]
     };
   },
-
   methods: {
     shenfeng() {
       this.show = true;
@@ -68,6 +68,12 @@ export default {
       this.$router.push("/editmine");
     }
   }
+  // computed: {
+  //   userName() {
+  //     console.log(this.$store.state.userName);
+  //     return this.$store.state.userName;
+  //   }
+  // }
 };
 </script>
 

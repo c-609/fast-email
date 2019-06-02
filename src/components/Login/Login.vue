@@ -19,6 +19,7 @@
 
 <script>
 import {loginObj} from '@/api/login.js'
+import { mapState } from "vuex";
 export default {
   
  data(){
@@ -39,9 +40,9 @@ export default {
      }else if(this.password == ''){
         this.$notify('请输入密码');
      }else{
-        loginObj(this.acount,this.password).then(res=>{
-          console.log(res);
-         
+        loginObj(this.acount,this.password).then(res=>{       
+          this.$store.commit('login',res.data.data);
+          console.log(res.data.data);
           this.$router.push("/home")
         })
      }
