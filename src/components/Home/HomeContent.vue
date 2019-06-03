@@ -14,31 +14,36 @@
         >足协杯战线连续第2年上演广州德比战，上赛季半决赛上恒大以两回合5-3的总比分淘汰富力。</van-notice-bar>
 
         <div>
-          <van-list>
-            <van-swipe-cell
-              :right-width="span_width"
-              v-for="(item,index) in messageList"
-              :key="index"
-            >
-              <van-cell-group>
-                <base-cell
-                  clickable
-                  :title="item.sender"
-                  :value="item.status"
-                  :time="item.time"
-                  :label="item.title|ellipsis"
-                  @click="clickmessage(item)"
-                ></base-cell>
-                <!-- <base-panel @click="detail(item)" :title=item.sender :desc=item.title|ellipsis :status=item.status  :time="item.time"></base-panel> -->
-              </van-cell-group>
-              <span slot="right">
-                <div id="right_span">
-                  <span class="top" @click="handleTop(index)">置顶</span>
-                  <span class="delete" @click="handleDelete(index)">删除</span>
-                </div>
-              </span>
-            </van-swipe-cell>
-          </van-list>
+          <van-collapse v-model="activeNames">
+            <van-collapse-item title="消息送达中" name="1">
+              <van-list>
+                <van-swipe-cell
+                  :right-width="span_width"
+                  v-for="(item,index) in messageList"
+                  :key="index"
+                >
+                  <van-cell-group>
+                    <base-cell
+                      clickable
+                      :title="item.senderName"
+                      value="未读"
+                      :time="item.time"
+                      :label="item.title|ellipsis"
+                      @click="clickmessage(item)"
+                    ></base-cell>
+                    <!-- <base-panel @click="detail(item)" :title=item.sender :desc=item.title|ellipsis :status=item.status  :time="item.time"></base-panel> -->
+                  </van-cell-group>
+                  <span slot="right">
+                    <div id="right_span">
+                      <span class="top" @click="handleTop(index)">置顶</span>
+                      <span class="delete" @click="handleDelete(index)">删除</span>
+                    </div>
+                  </span>
+                </van-swipe-cell>
+              </van-list>
+            </van-collapse-item>
+            <van-collapse-item title="新到通知" name="2">内容</van-collapse-item>
+          </van-collapse>
         </div>
       </van-pull-refresh>
     </div>
@@ -56,15 +61,16 @@ export default {
     BaseCell
   },
   created() {
-    getNoReadMsg().then(res => {
-      this.messageList = res.data.data;
-      console.log(res);
+    getNoReadMsg(0).then(res => {
+      // this.messageList = res.data.data;
+      console.log(this.messageList);
     });
   },
   data() {
     return {
       span_width: 130,
       active: 0,
+      activeNames: ["1"],
       count: 0,
       isLoading: false,
       message: "",
@@ -156,7 +162,9 @@ export default {
   flex: 1;
   display: none;
 }
-
+.van-cell:not(:last-child)::after {
+  border-bottom-color: white;
+}
 .van-swipe-cell__right {
   width: 130px;
 }
@@ -193,3 +201,4 @@ export default {
   width: 100%;
 }
 </style>
+

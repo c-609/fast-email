@@ -1,10 +1,13 @@
 import request from 'axios'
 
 //返回当前用户(未读）的消息列表
-export function getNoReadMsg() {
+export function getNoReadMsg(status) {
   return request({
     url: '/msg',
-    method: 'get'
+    method: 'get',
+    params: {
+      status
+    }
   })
 }
 
