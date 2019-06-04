@@ -9,7 +9,7 @@
     <div class="contenet">
       <div>
         <van-search
-          v-model="value"
+          v-model="search"
           placeholder="请输入搜索关键词"
           shape="round"
           @search="onSearch"
@@ -40,15 +40,37 @@
         </van-popup>
       </div>
       <div class="accept-message">
-        <van-list v-for="(item,index) in MessageList" :key="index" @click="get(item.title)">
+        <van-list v-for="(item,index) in messageList" :key="index" @click="get(item.title)">
           <van-swipe-cell :right-width="span_width">
             <van-cell-group>
               <base-cell
                 clickable
-                :title="item.title"
+                :title="item.senderName"
                 :value="item.status"
                 :time="item.time"
-                :label="item.desc"
+                :label="item.title|ellipsis"
+                @click="clickmessage(item)"
+              ></base-cell>
+              <!-- <van-panel :title=item.title :desc=item.desc :status=item.status > </van-panel> -->
+            </van-cell-group>
+            <span slot="right">
+              <div id="right_span">
+                <span class="top" @click="handleTop(index)">置顶</span>
+                <span class="delete" @click="handleDelete(index)">删除</span>
+              </div>
+            </span>
+          </van-swipe-cell>
+        </van-list>
+        <van-list v-for="(item,index) in readMessageList" :key="index" @click="get(item.title)">
+          <van-swipe-cell :right-width="span_width">
+            <van-cell-group>
+              <base-cell
+                clickable
+                :title="item.senderName"
+                :value="item.status"
+                :time="item.time"
+                :label="item.title|ellipsis"
+                @click="clickmessage(item)"
               ></base-cell>
               <!-- <van-panel :title=item.title :desc=item.desc :status=item.status > </van-panel> -->
             </van-cell-group>
@@ -67,17 +89,20 @@
 
 <script>
 import BaseCell from "../Common/BaseCell";
+import eventBus from "../../utils/eventBus";
+import { getNoReadMsg } from "../../api/home.js";
 export default {
   components: {
     BaseCell
   },
   data() {
     return {
+      search: "",
+
       currentDate: new Date(),
       select_content: "请选择",
       select_time: "",
       show: false,
-      value: "",
       columns: [
         "信息院王老师",
         "信息院刘老师",
@@ -90,82 +115,67 @@ export default {
       active: 0,
       count: 0,
       isLoading: false,
-      MessageList: [
-        {
-          title: "信息院王老师",
-          desc: "香港回归祖国......",
-          status: "未读",
-          time: "18:15"
-        },
-        {
-          title: "信息院刘老师",
-          desc: " 澳门回归祖国......",
-          status: "未读",
-          time: "18:15"
-        },
-        {
-          title: "信息院王老师",
-          desc: "香港回归祖国......",
-          status: "未读",
-          time: "18:15"
-        },
-        {
-          title: "信息院刘老师",
-          desc: " 澳门回归祖国......",
-          status: "未读",
-          time: "18:15"
-        },
-        {
-          title: "信息院王老师",
-          desc: "香港回归祖国......",
-          status: "未读",
-          time: "18:15"
-        },
-        {
-          title: "信息院刘老师",
-          desc: " 澳门回归祖国......",
-          status: "未读",
-          time: "18:15"
-        },
-        {
-          title: "信息院王老师",
-          desc: "香港回归祖国......",
-          status: "未读",
-          time: "18:15"
-        },
-        {
-          title: "信息院刘老师",
-          desc: " 澳门回归祖国......",
-          status: "未读",
-          time: "18:15"
-        },
-        {
-          title: "信息院王老师",
-          desc: "香港回归祖国......",
-          status: "未读",
-          time: "18:15"
-        },
-        {
-          title: "信息院刘老师",
-          desc: " 澳门回归祖国......",
-          status: "未读",
-          time: "18:15"
-        },
-        {
-          title: "信息院王老师",
-          desc: "香港回归祖国......",
-          status: "未读",
-          time: "18:15"
-        },
-        {
-          title: "信息院刘老师",
-          desc: " 澳门回归祖国......",
-          status: "未读",
-          time: "18:15"
-        }
-      ]
+      messageList: [],
+      readMessageList: [], //未处理过的，从后台拿到的
+      message: ""
     };
   },
+  created() {
+    this.messageList = this.MessageList;
+    getNoReadMsg(0).then(res => {
+      this.messageList = res.data.data;
+      var i;
+      for (i = 0; i < this.messageList.length; i++) {
+        this.messageList[i].status = "未读";
+      }
+    });
+
+    var arr = new Array();
+    getNoReadMsg(1).then(res => {
+      this.readMessageList = res.data.data;
+      var i;
+      for (i = 0; i < this.readMessageList.length; i++) {
+        this.readMessageList[i].status = "已读";
+      }
+    });
+
+    // this.messageList.concat(arr);
+    // console.log(this.messageList);
+  },
+  computed: {
+    tables() {
+      const search = this.search;
+      if (search) {
+        // filter() 方法创建一个新的数组，新数组中的元素是通过检查指定数组中符合条件的所有元素。
+        // 注意： filter() 不会对空数组进行检测。
+        // 注意： filter() 不会改变原始数组。
+        return this.MessageList.filter(data => {
+          // some() 方法用于检测数组中的元素是否满足指定条件;
+          // some() 方法会依次执行数组的每个元素：
+          // 如果有一个元素满足条件，则表达式返回true , 剩余的元素不会再执行检测;
+          // 如果没有满足条件的元素，则返回false。
+          // 注意： some() 不会对空数组进行检测。
+          // 注意： some() 不会改变原始数组。
+          return Object.keys(data).some(key => {
+            // indexOf() 返回某个指定的字符在某个字符串中首次出现的位置，如果没有找到就返回-1；
+            // 该方法对大小写敏感！所以之前需要toLowerCase()方法将所有查询到内容变为小写。
+            return (
+              String(data[key])
+                .toLowerCase()
+                .indexOf(search) > -1
+            );
+          });
+        });
+      }
+      return this.MessageList;
+    }
+  },
+  watch: {
+    tables() {
+      this.messageList = this.tables;
+    }
+  },
+
   //获取div宽度
   mounted() {
     var div = document.getElementById("right_span");
@@ -173,7 +183,23 @@ export default {
       div.style.width || div.clientWidth || div.offsetWidth || div.scrollWidth;
     this.span_width = width;
   },
+  beforeDestroy() {
+    eventBus.$emit("message", this.message);
+  },
+  filters: {
+    ellipsis(value) {
+      if (!value) return "";
+      if (value.length > 8) {
+        return value.slice(0, 8) + "......";
+      }
+      return value;
+    }
+  },
   methods: {
+    clickmessage(message) {
+      this.message = message;
+      this.$router.push("/message");
+    },
     onSearch() {},
     timeChange(picker, value, index) {
       this.select_time = picker.getValues();

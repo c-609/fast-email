@@ -38,10 +38,11 @@
 
         <el-tree
           class="IdTree"
-          :data="IdTree"
+          :data="deptData"
+          :props="deptProps"
           show-checkbox
           node-key="id"
-          default-expand-all="true"
+          :default-expand-all="true"
         ></el-tree>
       </van-popup>
     </div>
@@ -49,59 +50,15 @@
 </template>
 
 <script>
+import { getDeptTree } from "../../api/send";
 export default {
   data() {
     return {
-      IdTree: [
-        {
-          id: 1,
-          label: "一级 1",
-          children: [
-            {
-              id: 4,
-              label: "二级 1-1",
-              children: [
-                {
-                  id: 9,
-                  label: "三级 1-1-1"
-                },
-                {
-                  id: 10,
-                  label: "三级 1-1-2"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          id: 2,
-          label: "一级 2",
-          children: [
-            {
-              id: 5,
-              label: "二级 2-1"
-            },
-            {
-              id: 6,
-              label: "二级 2-2"
-            }
-          ]
-        },
-        {
-          id: 3,
-          label: "一级 3",
-          children: [
-            {
-              id: 7,
-              label: "二级 3-1"
-            },
-            {
-              id: 8,
-              label: "二级 3-2"
-            }
-          ]
-        }
-      ],
+      deptData: [],
+      deptProps: {
+        label: "name",
+        children: "children"
+      },
       show: false,
       message_title: "",
       message_content: "",
@@ -121,7 +78,11 @@ export default {
       result: ["a", "b"]
     };
   },
-
+  created() {
+    getDeptTree().then(res => {
+      this.deptData = res.data.data;
+    });
+  },
   methods: {
     choseIdOk() {
       this.show = false;

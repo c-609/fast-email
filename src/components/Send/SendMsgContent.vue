@@ -1,7 +1,7 @@
 <template>
   <div>
     <van-nav-bar
-      fixed="true"
+      :fixed="true"
       title="通知"
       left-text="返回"
       right-text="删除"
@@ -86,8 +86,12 @@ export default {
 }
 .message_content {
   padding: 30px;
+  font-size: 14px;
 }
 .message_top {
   height: 50px;
+}
+.van-cell {
+  font-size: 16px;
 }
 </style>

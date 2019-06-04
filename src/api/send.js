@@ -20,3 +20,13 @@ export function sendMsg(senderId, content, recipientIds) {
 //     method: 'post'
 //   })
 // }
+
+//获取部门树
+export function getDeptTree() {
+  return request({
+    url: "/manage/dept/tree",
+    method: 'get',
+
+  })
+
+}

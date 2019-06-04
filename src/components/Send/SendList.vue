@@ -2,7 +2,7 @@
   <div>
     <div>
       <van-nav-bar title="已发出" :fixed="true" class="content_nav_bar" @click-right="onClickRight">
-        <van-icon name="edit" slot="right"/>
+        <van-icon name="edit" slot="right" size="large"/>
       </van-nav-bar>
     </div>
     <div class="contenet">

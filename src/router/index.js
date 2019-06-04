@@ -19,26 +19,6 @@ export default new Router({
       component: Login
     },
     {
-      path: '/editmine',
-      name: 'EditMine',
-      component: EditMine
-    },
-    {
-      path: '/message',
-      name: 'Message',
-      component: Message
-    },
-    {
-      path: '/editmessage',
-      name: 'EditMessage',
-      component: EditMessage
-    },
-    {
-      path: '/sendmsgcontent',
-      name: 'SendMsgContent',
-      component: SendMsgContent
-    },
-    {
       path: '/home',
       name: 'Home',
       component: Home,
@@ -48,6 +28,11 @@ export default new Router({
           component: HomeContent
         },
         {
+          path: '/message',
+          name: 'Message',
+          component: Message
+        },
+        {
           path: '/messagecontent',
           name: 'MessageContent',
           component: MessageContent
@@ -55,13 +40,29 @@ export default new Router({
         {
           path: '/sendlist',
           name: 'SendList',
-          component: SendList
+          component: SendList,
+        },
+        {
+          path: '/sendmsgcontent',
+          name: 'SendMsgContent',
+          component: SendMsgContent
+        },
+        {
+          path: '/editmessage',
+          name: 'EditMessage',
+          component: EditMessage
         },
         {
           path: '/minecontent',
           name: 'MineContent',
-          component: MineContent
-        }
+          component: MineContent,
+
+        },
+        {
+          path: '/editmine',
+          name: 'EditMine',
+          component: EditMine
+        },
       ]
     },
 

@@ -64,12 +64,17 @@ export default {
 </script>
 <style>
 .detailed {
-  margin-top: 50px;
+  padding-top: 50px;
 }
+
 .message_content {
   padding: 30px;
 }
 .message_top {
+  background: #f2f2f2;
   height: 50px;
+}
+.van-cell {
+  font-size: 18px;
 }
 </style>

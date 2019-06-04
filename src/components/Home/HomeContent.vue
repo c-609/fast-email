@@ -15,7 +15,17 @@
 
         <div>
           <van-collapse v-model="activeNames">
-            <van-collapse-item title="消息送达中" name="1">
+            <van-collapse-item name="1">
+              <div slot="title">
+                通知送达中
+                <span class="number">{{sendNumber}}</span>
+              </div>
+            </van-collapse-item>
+            <van-collapse-item name="2">
+              <div slot="title">
+                新到通知
+                <span class="number">{{receiptNumber}}</span>
+              </div>
               <van-list>
                 <van-swipe-cell
                   :right-width="span_width"
@@ -42,7 +52,6 @@
                 </van-swipe-cell>
               </van-list>
             </van-collapse-item>
-            <van-collapse-item title="新到通知" name="2">内容</van-collapse-item>
           </van-collapse>
         </div>
       </van-pull-refresh>
@@ -62,15 +71,17 @@ export default {
   },
   created() {
     getNoReadMsg(0).then(res => {
-      // this.messageList = res.data.data;
-      console.log(this.messageList);
+      this.messageList = res.data.data;
+      this.receiptNumber = this.messageList.length;
     });
   },
   data() {
     return {
+      sendNumber: "",
+      receiptNumber: "",
       span_width: 130,
       active: 0,
-      activeNames: ["1"],
+      activeNames: ["1", "2"],
       count: 0,
       isLoading: false,
       message: "",
@@ -144,6 +155,10 @@ export default {
   height: 640px;
   background: #f2f2f2;
 } */
+.number {
+  color: #f44;
+  margin-left: 20px;
+}
 .notice {
   height: 25px;
   font-size: 10px;
