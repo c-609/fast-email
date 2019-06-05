@@ -85,9 +85,7 @@ export default {
     });
   },
   methods: {
-    choseIdOk() {
-      this.show = false;
-    },
+    choseIdOk() {},
     choseIdentify() {
       this.show = true;
     },
