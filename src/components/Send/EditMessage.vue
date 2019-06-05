@@ -29,7 +29,7 @@
       <van-popup v-model="show" :overlay="true" class="choseId">
         <van-row>
           <van-col span="16">
-            <p class="requirement">请选择收件人身份</p>
+            <p class="requirement">{{identityHint}}</p>
           </van-col>
           <van-col span="8">
             <van-button type="info" size="small" class="IdButton" @click="choseIdOk">确认</van-button>
@@ -75,7 +75,8 @@ export default {
         { text: "活动商品", value: 2 }
       ],
       list: ["a", "b", "c"],
-      result: ["a", "b"]
+      result: ["a", "b"],
+      identityHint: "请选择收件人身份"
     };
   },
   created() {

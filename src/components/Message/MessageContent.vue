@@ -61,27 +61,6 @@
             </span>
           </van-swipe-cell>
         </van-list>
-        <van-list v-for="(item,index) in readMessageList" :key="index" @click="get(item.title)">
-          <van-swipe-cell :right-width="span_width">
-            <van-cell-group>
-              <base-cell
-                clickable
-                :title="item.senderName"
-                :value="item.status"
-                :time="item.time"
-                :label="item.title|ellipsis"
-                @click="clickmessage(item)"
-              ></base-cell>
-              <!-- <van-panel :title=item.title :desc=item.desc :status=item.status > </van-panel> -->
-            </van-cell-group>
-            <span slot="right">
-              <div id="right_span">
-                <span class="top" @click="handleTop(index)">置顶</span>
-                <span class="delete" @click="handleDelete(index)">删除</span>
-              </div>
-            </span>
-          </van-swipe-cell>
-        </van-list>
       </div>
     </div>
   </div>
@@ -116,31 +95,32 @@ export default {
       count: 0,
       isLoading: false,
       messageList: [],
-      readMessageList: [], //未处理过的，从后台拿到的
+      MessageList: [], //未处理过的，从后台拿到的
       message: ""
     };
   },
   created() {
-    this.messageList = this.MessageList;
+    var a = new Array();
     getNoReadMsg(0).then(res => {
-      this.messageList = res.data.data;
+      this.MessageList = res.data.data;
       var i;
-      for (i = 0; i < this.messageList.length; i++) {
-        this.messageList[i].status = "未读";
+      for (i = 0; i < this.MessageList.length; i++) {
+        this.MessageList[i].status = "未读";
       }
     });
 
-    var arr = new Array();
+    var b = new Array();
     getNoReadMsg(1).then(res => {
-      this.readMessageList = res.data.data;
+      b = res.data.data;
       var i;
-      for (i = 0; i < this.readMessageList.length; i++) {
-        this.readMessageList[i].status = "已读";
+      for (i = 0; i < b.length; i++) {
+        b[i].status = "已读";
       }
+      console.log(b);
+      this.MessageList.push.apply(this.MessageList, b);
+      console.log(this.MessageList);
     });
-
-    // this.messageList.concat(arr);
-    // console.log(this.messageList);
+    this.messageList = this.MessageList;
   },
   computed: {
     tables() {
@@ -207,6 +187,7 @@ export default {
     },
     onChange(picker, value, index) {
       this.select_content = value;
+      console.log(picker.getValues());
     },
     openprop: function() {
       this.show = true;
