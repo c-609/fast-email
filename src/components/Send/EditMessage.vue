@@ -43,6 +43,7 @@
           show-checkbox
           node-key="id"
           :default-expand-all="true"
+          ref="tree"
         ></el-tree>
       </van-popup>
     </div>
@@ -85,7 +86,10 @@ export default {
     });
   },
   methods: {
-    choseIdOk() {},
+    choseIdOk() {
+      console.log(this.$refs.tree.getCheckedKeys());
+      this.show = false;
+    },
     choseIdentify() {
       this.show = true;
     },

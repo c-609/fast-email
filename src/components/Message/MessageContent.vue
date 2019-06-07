@@ -56,7 +56,7 @@
             <span slot="right">
               <div id="right_span">
                 <span class="top" @click="handleTop(index)">置顶</span>
-                <span class="delete" @click="handleDelete(index)">删除</span>
+                <span class="delete" @click="handleDelete(item.id,index)">删除</span>
               </div>
             </span>
           </van-swipe-cell>
@@ -69,7 +69,7 @@
 <script>
 import BaseCell from "../Common/BaseCell";
 import eventBus from "../../utils/eventBus";
-import { getNoReadMsg } from "../../api/home.js";
+import { getNoReadMsg, editMsgStatus } from "../../api/home.js";
 export default {
   components: {
     BaseCell
@@ -116,11 +116,9 @@ export default {
       for (i = 0; i < b.length; i++) {
         b[i].status = "已读";
       }
-      console.log(b);
       this.MessageList.push.apply(this.MessageList, b);
-      console.log(this.MessageList);
+      this.messageList = this.MessageList;
     });
-    this.messageList = this.MessageList;
   },
   computed: {
     tables() {
@@ -195,8 +193,12 @@ export default {
     handleTop(index) {
       alert("置顶");
     },
-    handleDelete(index) {
-      alert("删除");
+    handleDelete(mid, index) {
+      console.log(index);
+      this.messageList.splice(index, 1);
+      editMsgStatus(mid, -1).then(res => {
+        console.log(res);
+      });
     },
     onRefresh() {
       setTimeout(() => {

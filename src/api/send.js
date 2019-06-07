@@ -13,13 +13,21 @@ export function sendMsg(senderId, content, recipientIds) {
   })
 }
 
-//获取用户读取比列
-// export function getReadRatio(mid) {
-//   return request({
-//     url: '/msg/proportion/' + mid,
-//     method: 'post'
-//   })
-// }
+//返回当前用户发送的消息列表
+export function getSendList(status) {
+  return request({
+    url: '/msg/send_list',
+    method: 'get'
+  })
+}
+
+//根据消息id获取未读用户列表
+export function getNoReadListById(mid) {
+  return request({
+    url: '/msg/' + mid,
+    method: 'get'
+  })
+}
 
 //获取部门树
 export function getDeptTree() {

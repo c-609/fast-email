@@ -16,7 +16,7 @@
                   :title="item.title"
                   :value="item.readRatio"
                   :time="item.time"
-                  :label="item.desc"
+                  :label="item.content|ellipsis"
                   @click="clickMessage(item)"
                 ></base-cell>
               </van-cell-group>
@@ -37,6 +37,7 @@
 <script>
 import eventBus from "../../utils/eventBus";
 import BaseCell from "../Common/BaseCell";
+import { getSendList } from "../../api/send";
 export default {
   components: {
     BaseCell
@@ -49,32 +50,44 @@ export default {
       isLoading: false,
       message: "",
       MessageList: [
-        {
-          title: "信息院全体同学",
-          desc: "香港回归祖国......",
-          readRatio: "12/20",
-          time: "18:15"
-        },
-        {
-          title: "信息院计科班",
-          desc: " 澳门回归祖国......",
-          readRatio: "13/20",
-          time: "18:15"
-        },
-        {
-          title: "信息院电子班",
-          desc: "香港回归祖国......",
-          readRatio: "14/40",
-          time: "18:15"
-        },
-        {
-          title: "信息院网工班",
-          desc: " 澳门回归祖国......",
-          readRatio: "14/50",
-          time: "18:15"
-        }
+        // {
+        //   title: "信息院全体同学",
+        //   desc: "香港回归祖国......",
+        //   readRatio: "12/20",
+        //   time: "18:15"
+        // },
+        // {
+        //   title: "信息院计科班",
+        //   desc: " 澳门回归祖国......",
+        //   readRatio: "13/20",
+        //   time: "18:15"
+        // },
+        // {
+        //   title: "信息院电子班",
+        //   desc: "香港回归祖国......",
+        //   readRatio: "14/40",
+        //   time: "18:15"
+        // },
+        // {
+        //   title: "信息院网工班",
+        //   desc: " 澳门回归祖国......",
+        //   readRatio: "14/50",
+        //   time: "18:15"
+        // }
       ]
     };
+  },
+  created() {
+    getSendList(0).then(res => {
+      console.log(res);
+      this.MessageList = res.data.data;
+      var i = 0;
+      for (i; i < this.MessageList.length; i++) {
+        this.MessageList[i].readRatio =
+          this.MessageList[i].readNumber + "/" + this.MessageList[i].number;
+        console.log(this.MessageList[i].readRatio);
+      }
+    });
   },
   //获取div宽度
   mounted() {
@@ -85,6 +98,15 @@ export default {
   },
   beforeDestroy() {
     eventBus.$emit("sendMsgContent", this.message);
+  },
+  filters: {
+    ellipsis(value) {
+      if (!value) return "";
+      if (value.length > 8) {
+        return value.slice(0, 8) + "......";
+      }
+      return value;
+    }
   },
   methods: {
     onClickRight() {
