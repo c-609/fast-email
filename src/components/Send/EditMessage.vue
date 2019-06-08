@@ -15,7 +15,7 @@
     </div>
     <div class="message_content_div">
       <van-cell-group>
-        <van-field v-model="message_title" clearable label="标题" placeholder="请输入标题"/>
+        <van-field v-model="message_title" clearable label="标题：" placeholder="请输入标题"/>
         <van-field
           v-model="senderIdentity"
           clearable
@@ -48,12 +48,13 @@
           @navclick="onNavClick"
           @itemclick="onItemClick"
         />
+        <van-button type="info" size="small" class="IdButton" @click="choseSenderOk">确认</van-button>
       </van-popup>
 
       <van-popup v-model="showRecipient" :overlay="true" class="choseId">
         <van-row>
           <van-col span="16">
-            <p class="requirement">{{identityHint}}</p>
+            <p class="requirement">请选择收件人身份</p>
           </van-col>
           <van-col span="8">
             <van-button type="info" size="small" class="IdButton" @click="choseIdOk">确认</van-button>
@@ -94,10 +95,12 @@ export default {
 
       // senderIdentityList: this.$store.state.roles,
       roleId: 0,
-      deptId: "",
+      deptId: this.$store.state.depts[0].id,
+      roleName: "",
+      deptName: "",
       deptItems: this.$store.state.depts,
       deptIndex: 0,
-      recipientIdentityIds: [],
+      recipientDeptIds: [],
       recipients: "",
       senderIdentity: ""
       // identityHint: "请选择收件人身份"
@@ -110,14 +113,32 @@ export default {
   },
   methods: {
     choseSenderIdentify() {
+      this.senderIdentity = "";
+      // this.deptName = "";
+      // this.roleName = "";
       this.showSender = true;
     },
+
+    onNavClick(index) {
+      console.log(this.deptItems);
+      this.deptName = this.deptItems[index].name;
+      this.deptId = this.deptItems[index].id;
+    },
     onItemClick(data) {
-      this.senderIdentity = data.text;
+      this.roleName = data.name;
+      this.roleId = data.id;
+      console.log(data);
+    },
+    choseSenderOk() {
+      if (this.deptName == "" && this.roleName != "")
+        this.deptName = this.deptItems[0].name;
+      // if (this.roleName == "")
+      //   this.roleName = this.deptItems[this.deptId].children[0].name;
+      this.senderIdentity = this.deptName + " " + this.roleName;
       this.showSender = false;
     },
     choseIdOk() {
-      this.recipientIdentityIds = this.$refs.tree.getCheckedKeys();
+      this.recipientDeptIds = this.$refs.tree.getCheckedKeys();
       var data = this.$refs.tree.getCheckedNodes();
       var i = 0;
       for (i; i < data.length; i++) {
@@ -136,13 +157,38 @@ export default {
     sendMessage() {
       console.log(this.message_title);
       console.log(this.message_content);
-      console.log(this.senderIdentityList[this.senderIdentity].id);
-      console.log(this.recipientIdentityIds);
-      sendMsg().then(res => {
-        if (res.code == "0") {
-          this.$toast("发送成功");
+      // console.log(this.senderIdentityList[this.senderIdentity].id);
+      // console.log(this.recipientDeptIds);
+      var title = this.message_title;
+      var content = this.message_content;
+      var senderId = this.$store.state.id;
+      var roleId = this.roleId;
+      var deptId = this.deptId;
+      var recipientDeptIds = this.recipientDeptIds.join(",");
+      if (this.message_title == "") this.$toast("请输入标题");
+      else {
+        if (this.senderIdentity == "") this.$toast("请选择发件身份");
+        else {
+          if (this.recipients == "") this.$toast("请选择收件身份");
+          else {
+            if (this.message_content == "") this.$toast("请输入通知内容");
+            else {
+              sendMsg(
+                title,
+                content,
+                senderId,
+                roleId,
+                deptId,
+                recipientDeptIds
+              ).then(res => {
+                if (res.code == "0") {
+                  this.$toast("发送成功");
+                }
+              });
+            }
+          }
         }
-      });
+      }
     }
   }
 };

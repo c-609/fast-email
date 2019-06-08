@@ -1,14 +1,17 @@
 import request from 'axios'
 
 //发送消息
-export function sendMsg(senderId, content, recipientIds) {
+export function sendMsg(title, content, senderId, roleId, deptId, recipientDeptIds) {
   return request({
     url: '/msg/process/send',
     method: 'post',
     params: {
-      senderId,
+      title,
       content,
-      recipientIds
+      senderId,
+      roleId,
+      deptId,
+      recipientDeptIds
     }
   })
 }
