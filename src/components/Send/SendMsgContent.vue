@@ -56,8 +56,7 @@ export default {
       this.recipient = res.dept.name;
       this.time = res.time;
       this.content = res.content;
-      this.readRatio = res.readRatio;
-      this.noRead += res.readRatio;
+      this.noRead += res.number - res.readNumber + "/" + res.number;
       var _this = this;
       getNoReadListById(res.id).then(respond => {
         var i;

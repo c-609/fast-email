@@ -16,17 +16,41 @@
     <div class="message_content_div">
       <van-cell-group>
         <van-field v-model="message_title" clearable label="标题" placeholder="请输入标题"/>
-        <van-cell class="send-identify" title="发件身份">
+        <van-field
+          v-model="senderIdentity"
+          clearable
+          label="发件身份："
+          placeholder="请选择发件身份"
+          @click="choseSenderIdentify()"
+        />
+        <!-- <van-cell class="send-identify" title="发件身份">
           <van-dropdown-menu>
             <van-dropdown-item v-model="senderIdentity" :options="senderIdentityList"/>
           </van-dropdown-menu>
-        </van-cell>
-        <van-cell title="收件身份" is-link value="请选择收件人身份" @click="choseIdentify()"/>
+        </van-cell>-->
+        <van-field
+          v-model="recipients"
+          clearable
+          label="收件身份："
+          placeholder="请选择收件人身份"
+          @click="choseIdentify()"
+        />
         <div class="blank" style="height: 10px; background-color:#F2F2F2;"></div>
         <van-cell title="通知内容："></van-cell>
         <van-field v-model="message_content" type="textarea" placeholder="请输入通知内容" rows="15"/>
       </van-cell-group>
-      <van-popup v-model="show" :overlay="true" class="choseId">
+
+      <van-popup v-model="showSender" class="tree-select">
+        <van-tree-select
+          :items="deptItems"
+          :main-active-index="deptIndex"
+          :active-id="roleId"
+          @navclick="onNavClick"
+          @itemclick="onItemClick"
+        />
+      </van-popup>
+
+      <van-popup v-model="showRecipient" :overlay="true" class="choseId">
         <van-row>
           <van-col span="16">
             <p class="requirement">{{identityHint}}</p>
@@ -35,7 +59,6 @@
             <van-button type="info" size="small" class="IdButton" @click="choseIdOk">确认</van-button>
           </van-col>
         </van-row>
-
         <el-tree
           class="IdTree"
           :data="deptData"
@@ -51,8 +74,12 @@
 </template>
 
 <script>
-import { getDeptTree } from "../../api/send";
+import { getDeptTree, sendMsg } from "../../api/send";
+import BaseTreeSelect from "../Common/BaseTreeSelelct";
 export default {
+  components: {
+    BaseTreeSelect
+  },
   data() {
     return {
       deptData: [],
@@ -60,24 +87,20 @@ export default {
         label: "name",
         children: "children"
       },
-      show: false,
+      showSender: false,
+      showRecipient: false,
       message_title: "",
       message_content: "",
-      senderIdentity: 0,
-      senderIdentityList: [
-        { text: "全部商品", value: 0 },
-        { text: "新款商品", value: 1 },
-        { text: "活动商品", value: 2 }
-      ],
-      recipientIdentityIds: "",
-      recipientIdentityList: [
-        { text: "全部商品", value: 0 },
-        { text: "新款商品", value: 1 },
-        { text: "活动商品", value: 2 }
-      ],
-      list: ["a", "b", "c"],
-      result: ["a", "b"],
-      identityHint: "请选择收件人身份"
+
+      // senderIdentityList: this.$store.state.roles,
+      roleId: 0,
+      deptId: "",
+      deptItems: this.$store.state.depts,
+      deptIndex: 0,
+      recipientIdentityIds: [],
+      recipients: "",
+      senderIdentity: ""
+      // identityHint: "请选择收件人身份"
     };
   },
   created() {
@@ -86,12 +109,26 @@ export default {
     });
   },
   methods: {
+    choseSenderIdentify() {
+      this.showSender = true;
+    },
+    onItemClick(data) {
+      this.senderIdentity = data.text;
+      this.showSender = false;
+    },
     choseIdOk() {
-      console.log(this.$refs.tree.getCheckedKeys());
-      this.show = false;
+      this.recipientIdentityIds = this.$refs.tree.getCheckedKeys();
+      var data = this.$refs.tree.getCheckedNodes();
+      var i = 0;
+      for (i; i < data.length; i++) {
+        if (i != 0) this.recipients += "、";
+        this.recipients += data[i].name;
+      }
+      this.showRecipient = false;
     },
     choseIdentify() {
-      this.show = true;
+      this.recipients = "";
+      this.showRecipient = true;
     },
     onClickLeft() {
       this.$router.go(-1);
@@ -99,8 +136,13 @@ export default {
     sendMessage() {
       console.log(this.message_title);
       console.log(this.message_content);
-      console.log(this.senderIdentity);
-      console.log(this.recipientIdentity);
+      console.log(this.senderIdentityList[this.senderIdentity].id);
+      console.log(this.recipientIdentityIds);
+      sendMsg().then(res => {
+        if (res.code == "0") {
+          this.$toast("发送成功");
+        }
+      });
     }
   }
 };
@@ -147,5 +189,12 @@ export default {
 }
 .message_content_div .van-cell:not(:last-child)::after {
   border-bottom: 0px;
+}
+.tree-select .van-tree-select__nav {
+  width: 220px;
+  flex: 3;
+}
+.tree-select .van-tree-select__content {
+  width: 100px;
 }
 </style>

@@ -12,7 +12,7 @@
 
         <van-cell icon="idcard">
           <van-dropdown-menu class="identity">
-            <van-dropdown-item class="identity-drop" title="身份" :options="option1"/>
+            <van-dropdown-item class="identity-drop" title="身份" :options="roles"/>
           </van-dropdown-menu>
         </van-cell>
         <div class="blank"></div>
@@ -37,29 +37,12 @@ export default {
   data() {
     return {
       userName: this.$store.state.userName,
-      value1: 0,
-      value2: "a",
-      option1: [
-        { text: "全部商品", value: 0 },
-        { text: "新款商品", value: 1 },
-        { text: "活动商品", value: 2 },
-        { text: "全部商品", value: 0 },
-        { text: "新款商品", value: 1 },
-        { text: "活动商品", value: 2 },
-        { text: "全部商品", value: 0 },
-        { text: "新款商品", value: 1 },
-        { text: "活动商品", value: 2 },
-        { text: "全部商品", value: 0 },
-        { text: "新款商品", value: 1 },
-        { text: "活动商品", value: 2 },
-        { text: "全部商品", value: 0 },
-        { text: "新款商品", value: 1 },
-        { text: "活动商品", value: 2 }
-      ],
+      roles: this.$store.state.roles,
       show: false,
       columns: ["信息院老师", "信息院院长", "信息院书记"]
     };
   },
+
   methods: {
     shenfeng() {
       this.show = true;

@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import {loginObj} from '@/api/login.js'
+import {loginObj, getRolesById,getDeptsById ,getRoleByDept} from '@/api/login.js'
 import { mapState } from "vuex";
 export default {
   
@@ -27,6 +27,7 @@ export default {
          loading:false,
          acount:'student1',
          password:'456',
+         user: "",
      }
  },
  methods:{
@@ -40,15 +41,53 @@ export default {
      }else if(this.password == ''){
         this.$notify('请输入密码');
      }else{
-        loginObj(this.acount,this.password).then(res=>{       
-          this.$store.commit('login',res.data.data);
-          console.log(res.data.data);
+        loginObj(this.acount,this.password).then(res=>{  
+          this.user = res.data.data;
+          var ids = this.user.roleList.join(",")
+          getRolesById(ids).then(res=>{
+            var i;
+            var roles = res.data.data;
+            for (i = 0; i < roles.length; i++) {
+             roles[i].text = roles[i].name;
+             roles[i].value = i;
+            }
+            this.user.roles = roles;
+
+            var dids = this.user.deptList.join(",")
+
+            getDeptsById(dids).then(res=>{
+              var i;
+              var _this = this;
+              var depts = res.data.data;
+              for (i = 0; i < depts.length; i++) {
+                depts[i].text = depts[i].name;
+                depts[i].value = i;
+                // depts[i].children = [];
+                var j = i;
+                getRoleByDept(depts[i].id, this.user.id).then(res=>{
+                //  console.log( depts[j].text)
+                    depts[j].children = res.data.data; 
+                    
+                    var k=0;
+                    for(k;k<res.data.data.length;k++){
+                      depts[j].children[k].text = res.data.data[k].name;
+                      // console.log(depts[j].children)
+                    }           
+                })
+              }
+
+
+              this.user.depts = depts;
+              this.$store.commit('login',this.user);
+              console.log(this.user)
+            })   
           this.$router.push("/home")
         })
+     })
      }
-   }
  }
 
+ }
 }
 </script>
 
