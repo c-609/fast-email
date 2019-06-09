@@ -100,7 +100,7 @@ export default {
   border-bottom-width: 0px;
 }
 .blank {
-  height: 10px;
+  height: 8px;
   background-color: #f2f2f2;
 }
 /* .outlogin {

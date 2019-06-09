@@ -25,7 +25,9 @@
       <van-collapse-item :title="noRead" name="1">{{noReadList}}</van-collapse-item>
     </van-collapse>
 
-    <p class="message_content">{{content}}</p>
+    <div class="blank"></div>
+    <van-cell title="通知内容："></van-cell>
+    <van-field v-model="content" type="textarea" rows="15"/>
   </div>
 </template>
 

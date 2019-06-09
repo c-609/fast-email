@@ -263,7 +263,7 @@ export default {
 
 <style >
 .blank {
-  height: 10px;
+  height: 8px;
   background-color: #f2f2f2;
 }
 .contenet {

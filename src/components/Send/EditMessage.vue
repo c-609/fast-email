@@ -37,7 +37,7 @@
           placeholder="请选择收件人身份"
           @click="choseIdentify()"
         />
-        <div class="blank" style="height: 10px; background-color:#F2F2F2;"></div>
+        <div class="blank"></div>
         <van-cell title="通知内容："></van-cell>
         <van-field v-model="message_content" type="textarea" placeholder="请输入通知内容" rows="15"/>
       </van-cell-group>

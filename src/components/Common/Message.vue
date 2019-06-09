@@ -18,7 +18,10 @@
         发布人 : {{senderName}}
       </van-collapse-item>
     </van-collapse>
-    <p>{{content}}</p>
+    <div class="blank"></div>
+    <van-cell title="通知内容："></van-cell>
+    <van-field v-model="content" type="textarea" rows="15"/>
+    <!-- <p class>{{content}}</p> -->
   </div>
 </template>
 
