@@ -85,7 +85,7 @@ export default {
   },
   data() {
     return {
-      deptData: [],
+      deptData: "",
       deptProps: {
         label: "name",
         children: "children"
@@ -97,7 +97,8 @@ export default {
 
       // senderIdentityList: this.$store.state.roles,
       roleId: 0,
-      deptId: this.$store.state.depts[0].id,
+      // deptId: this.deptItems[0].id,
+      deptId: 0,
       roleName: "",
       deptName: "",
       deptItems: this.$store.state.depts,
@@ -111,6 +112,8 @@ export default {
   created() {
     getDeptTree().then(res => {
       this.deptData = res.data.data;
+      // console.log("dept");
+      // console.log(this.deptData);
     });
   },
   methods: {
@@ -125,8 +128,10 @@ export default {
       console.log(this.deptItems);
       this.deptName = this.deptItems[index].name;
       this.deptId = this.deptItems[index].id;
+      // console.log(index);
     },
     onItemClick(data) {
+      if (this.deptId == "") this.deptId = this.deptItems[0].id;
       this.roleName = data.name;
       this.roleId = data.id;
       console.log(data);
@@ -164,13 +169,27 @@ export default {
       var title = this.message_title;
       var content = this.message_content;
       var senderId = this.$store.state.id;
+      var senderName = this.$store.state.user.senderName;
       var roleId = this.roleId;
       var deptId = this.deptId;
-      
-      
+
       // var deptIds = this.deptIds.join(",");
-      var deptIds = "2,3"
-      console.log(title+"----"+content+"----"+senderId+"----"+roleId+"----"+deptId+"----"+deptIds);
+      var deptIds = "2,3";
+      console.log(
+        title +
+          "----" +
+          content +
+          "----" +
+          senderId +
+          "----" +
+          senderName +
+          "----" +
+          roleId +
+          "----" +
+          deptId +
+          "----" +
+          deptIds
+      );
       if (this.message_title == "") this.$toast("请输入标题");
       else {
         if (this.senderIdentity == "") this.$toast("请选择发件身份");
@@ -183,6 +202,7 @@ export default {
                 title,
                 content,
                 senderId,
+                senderName,
                 roleId,
                 deptId,
                 deptIds

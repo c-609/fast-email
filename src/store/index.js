@@ -15,6 +15,7 @@ export default new Vuex.Store({
     phoneNumber: '',
     id: '',
     receiveNum:'',
+    message:[],
   },
   mutations: {
     login(state, user) {
@@ -25,6 +26,9 @@ export default new Vuex.Store({
     },
     ReceiveNum(state,num){
       state.receiveNum = num;
+    },
+    GetMessage(state,message){
+      state.message = message;
     }
   }
 })

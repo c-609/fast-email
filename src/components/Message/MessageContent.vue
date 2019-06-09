@@ -70,12 +70,14 @@
 import BaseCell from "../Common/BaseCell";
 import eventBus from "../../utils/eventBus";
 import { getNoReadMsg, editMsgStatus } from "../../api/home.js";
+import IndexedDB from '../../api/IndexedDB'
 export default {
   components: {
     BaseCell
   },
   data() {
     return {
+      AllData:[],
       search: "",
       currentDate: new Date(),
       select_content: "请选择",
@@ -118,7 +120,26 @@ export default {
       this.MessageList.push.apply(this.MessageList, b);
       this.messageList = this.MessageList;
       this.$store.commit('ReceiveNum', this.MessageList.length);
+      //存入数据库
+      let MessageList = this.MessageList;   
+      let TestDB = null;
+      var _this = this;
+      IndexedDB.openDB('TestDB', 1, TestDB, {
+                    name: 'Test',
+                    key: 'id'
+                }, function (db) {
+                    let TestDB = db;
+                    IndexedDB.putData(TestDB, 'Test', MessageList);
+                     IndexedDB.getAllData(TestDB, 'Test', function (result){
+                       console.log("========================")
+                      //  console.log(result)
+                       _this.AllData = result;
+                     }); 
+                    //  IndexedDB.putData(vshopDB, 'vshop', [_this.$store.state.status])
+                }); 
     });
+    
+   
   },
   computed: {
     tables() {
@@ -127,7 +148,7 @@ export default {
         // filter() 方法创建一个新的数组，新数组中的元素是通过检查指定数组中符合条件的所有元素。
         // 注意： filter() 不会对空数组进行检测。
         // 注意： filter() 不会改变原始数组。
-        return this.MessageList.filter(data => {
+        return this.AllData.filter(data => {
           // some() 方法用于检测数组中的元素是否满足指定条件;
           // some() 方法会依次执行数组的每个元素：
           // 如果有一个元素满足条件，则表达式返回true , 剩余的元素不会再执行检测;
@@ -145,7 +166,7 @@ export default {
           });
         });
       }
-      return this.MessageList;
+      return this.AllData;
     }
   },
   watch: {
@@ -157,13 +178,14 @@ export default {
   //获取div宽度
   mounted() {
     console.log("----------------------------")
-    console.log(this.$store.state.receiveNum)
+    console.log(this.TestData)
     var div = document.getElementById("right_span");
     var width =
       div.style.width || div.clientWidth || div.offsetWidth || div.scrollWidth;
     this.span_width = width;
   },
   beforeDestroy() {
+    
     eventBus.$emit("message", this.message);
   },
   filters: {
@@ -231,6 +253,8 @@ export default {
     }
   }
 };
+
+
 </script>
 
 <style >
