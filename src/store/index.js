@@ -13,7 +13,8 @@ export default new Vuex.Store({
     depts: [],
     passWord: '',
     phoneNumber: '',
-    id: ''
+    id: '',
+    receiveNum:'',
   },
   mutations: {
     login(state, user) {
@@ -21,7 +22,9 @@ export default new Vuex.Store({
       state.roles = user.roles;
       state.depts = user.depts
       state.id = user.id;
+    },
+    ReceiveNum(state,num){
+      state.receiveNum = num;
     }
-
   }
 })

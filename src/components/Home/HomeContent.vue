@@ -35,10 +35,10 @@
                   <van-cell-group>
                     <base-cell
                       clickable
-                      :title="item.senderName"
+                      :title="item.title"
                       value="未读"
                       :time="item.time"
-                      :label="item.title|ellipsis"
+                      :label="item.content|ellipsis"
                       @click="clickmessage(item)"
                     ></base-cell>
                     <!-- <base-panel @click="detail(item)" :title=item.sender :desc=item.title|ellipsis :status=item.status  :time="item.time"></base-panel> -->

@@ -51,10 +51,13 @@ export default {
       editMsgStatus(this.mid, 1);
     });
   },
+  beforeDestroy(){
+    eventBus.$off("message");
+  },
   methods: {
     onClickLeft() {
       this.$router.go(-1);
-      eventBus.$off("/message");
+      // eventBus.$off("/message");
     },
     onClickRight() {
       Toast("按钮");

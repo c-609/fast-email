@@ -17,6 +17,7 @@
       <van-cell-group>
         <van-field v-model="message_title" clearable label="标题：" placeholder="请输入标题"/>
         <van-field
+          readonly
           v-model="senderIdentity"
           clearable
           label="发件身份："
@@ -29,6 +30,7 @@
           </van-dropdown-menu>
         </van-cell>-->
         <van-field
+          readonly
           v-model="recipients"
           clearable
           label="收件身份："
@@ -100,7 +102,7 @@ export default {
       deptName: "",
       deptItems: this.$store.state.depts,
       deptIndex: 0,
-      recipientDeptIds: [],
+      deptIds: [],
       recipients: "",
       senderIdentity: ""
       // identityHint: "请选择收件人身份"
@@ -138,7 +140,7 @@ export default {
       this.showSender = false;
     },
     choseIdOk() {
-      this.recipientDeptIds = this.$refs.tree.getCheckedKeys();
+      this.deptIds = this.$refs.tree.getCheckedKeys();
       var data = this.$refs.tree.getCheckedNodes();
       var i = 0;
       for (i; i < data.length; i++) {
@@ -164,7 +166,11 @@ export default {
       var senderId = this.$store.state.id;
       var roleId = this.roleId;
       var deptId = this.deptId;
-      var recipientDeptIds = this.recipientDeptIds.join(",");
+      
+      
+      // var deptIds = this.deptIds.join(",");
+      var deptIds = "2,3"
+      console.log(title+"----"+content+"----"+senderId+"----"+roleId+"----"+deptId+"----"+deptIds);
       if (this.message_title == "") this.$toast("请输入标题");
       else {
         if (this.senderIdentity == "") this.$toast("请选择发件身份");
@@ -179,9 +185,10 @@ export default {
                 senderId,
                 roleId,
                 deptId,
-                recipientDeptIds
+                deptIds
               ).then(res => {
-                if (res.code == "0") {
+                if (res.data.code == "0") {
+                  this.$router.go(-1);
                   this.$toast("发送成功");
                 }
               });

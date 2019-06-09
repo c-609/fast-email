@@ -4,7 +4,7 @@
 
     <van-tabbar v-model="active" :change="change(active)" style="background:#F2F2F2">
       <van-tabbar-item icon="home-o" to="/homecontent">主页</van-tabbar-item>
-      <van-tabbar-item icon="comment-o" dot to="/messagecontent">接收</van-tabbar-item>
+      <van-tabbar-item icon="comment-o" :info="receiveNum" to="/messagecontent">接收</van-tabbar-item>
       <van-tabbar-item icon="friends-o" dot style="background:#ff4444;color:white;">盆友</van-tabbar-item>
       <van-tabbar-item icon="upgrade" info="5" to="/sendlist">发出</van-tabbar-item>
       <van-tabbar-item icon="user-o" info="20" to="/minecontent">我</van-tabbar-item>
@@ -16,10 +16,12 @@
 export default {
   data() {
     return {
+      receiveNum:'',
       active: 0
     };
   },
   created() {
+    this.receiveNum = this.$store.state.receiveNum;
     this.$router.push("/homecontent");
   },
 

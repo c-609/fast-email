@@ -45,10 +45,10 @@
             <van-cell-group>
               <base-cell
                 clickable
-                :title="item.senderName"
+                :title="item.title"
                 :value="item.status"
                 :time="item.time"
-                :label="item.title|ellipsis"
+                :label="item.content|ellipsis"
                 @click="clickmessage(item)"
               ></base-cell>
               <!-- <van-panel :title=item.title :desc=item.desc :status=item.status > </van-panel> -->
@@ -77,7 +77,6 @@ export default {
   data() {
     return {
       search: "",
-
       currentDate: new Date(),
       select_content: "请选择",
       select_time: "",
@@ -118,6 +117,7 @@ export default {
       }
       this.MessageList.push.apply(this.MessageList, b);
       this.messageList = this.MessageList;
+      this.$store.commit('ReceiveNum', this.MessageList.length);
     });
   },
   computed: {
@@ -156,6 +156,8 @@ export default {
 
   //获取div宽度
   mounted() {
+    console.log("----------------------------")
+    console.log(this.$store.state.receiveNum)
     var div = document.getElementById("right_span");
     var width =
       div.style.width || div.clientWidth || div.offsetWidth || div.scrollWidth;
@@ -281,7 +283,7 @@ export default {
   display: none;
 }
 .accept-message {
-  margin-bottom: 50px;
+  
 }
 .van-swipe-cell__right {
   width: 130px;
