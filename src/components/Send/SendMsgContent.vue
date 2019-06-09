@@ -15,7 +15,7 @@
       <van-collapse-item :title="title" name="1">
         发布时间 : {{time}}
         <br>
-        发布人 : {{sender}}
+        发布人 : {{senderName}}
         <br>
         收件人 : {{recipient}}
       </van-collapse-item>
@@ -36,7 +36,7 @@ export default {
   data() {
     return {
       activeName1: "1",
-      sender: "",
+      senderName: "",
       title: "",
       recipient: "",
       time: "",
@@ -52,7 +52,7 @@ export default {
   created() {
     eventBus.$on("sendMsgContent", res => {
       this.title = res.title;
-      this.sender = res.senderName;
+      this.senderName = res.senderName;
       this.recipient = res.dept.name;
       this.time = res.time;
       this.content = res.content;

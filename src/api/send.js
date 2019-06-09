@@ -1,18 +1,19 @@
 import request from 'axios'
 
 //发送消息
-export function sendMsg(title, content, senderId, roleId, deptId, deptIds) {
+export function sendMsg(title, content, senderId, senderName, roleId, deptId, deptIds) {
   var Message = new FormData();
-  Message.append('title',title);
-  Message.append('content',content);
-  Message.append('senderId',senderId);
-  Message.append('roleId',roleId);
-  Message.append('deptId',deptId);
-  Message.append('deptIds',deptIds); 
+  Message.append('title', title);
+  Message.append('content', content);
+  Message.append('senderId', senderId);
+  Message.append('senderName', senderName);
+  Message.append('roleId', roleId);
+  Message.append('deptId', deptId);
+  Message.append('deptIds', deptIds);
   return request({
     url: '/msg/process/send',
     method: 'post',
-    data:Message
+    data: Message
   })
 }
 
@@ -20,7 +21,10 @@ export function sendMsg(title, content, senderId, roleId, deptId, deptIds) {
 export function getSendList(status) {
   return request({
     url: '/msg/send_list',
-    method: 'get'
+    method: 'get',
+    params: {
+      status
+    }
   })
 }
 

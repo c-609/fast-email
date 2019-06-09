@@ -21,8 +21,8 @@
         <van-cell title="电话2" icon="phone-circle-o" is-link value="0732-84802007" size="large"/>
         <div class="blank"></div>
       </van-cell-group>
-      <van-cell title="退出登录" icon="manager-o" size="large"/>
-      <div class="blank2"></div>
+      <van-cell class="outlogin" title="退出登录" icon="manager-o" size="large"/>
+      <div class="blank"></div>
       <van-popup v-model="show" position="left" class="shenfeng">
         身份信息
         <van-picker :columns="columns"/>
@@ -103,4 +103,7 @@ export default {
   height: 10px;
   background-color: #f2f2f2;
 }
+/* .outlogin {
+  border: solid 10px #f2f2f2;
+} */
 </style>

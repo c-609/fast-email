@@ -14,20 +14,22 @@ export default new Vuex.Store({
     passWord: '',
     phoneNumber: '',
     id: '',
-    receiveNum:'',
-    message:[],
+    receiveNum: '',
+    message: [],
+    user: '',
   },
   mutations: {
     login(state, user) {
+
       state.userName = user.username;
       state.roles = user.roles;
       state.depts = user.depts
       state.id = user.id;
     },
-    ReceiveNum(state,num){
+    ReceiveNum(state, num) {
       state.receiveNum = num;
     },
-    GetMessage(state,message){
+    GetMessage(state, message) {
       state.message = message;
     }
   }

@@ -7,61 +7,64 @@
     </div>
 
     <div class="contenet">
-      <div>
-        <van-search
-          v-model="search"
-          placeholder="请输入搜索关键词"
-          shape="round"
-          @search="onSearch"
-          class="search"
-        ></van-search>
-        <div class="blank"></div>
-        <van-cell
-          title="筛选"
-          is-link
-          :value="select_time+select_content"
-          class="shaixuan"
-          @click="openprop()"
-        />
-        <div class="blank"></div>
-        <van-popup v-model="show" position="left" class="popup">
-          <p class="requirement">根据时间筛选</p>
-          <van-datetime-picker
-            cancel-button-text="s"
-            v-model="currentDate"
-            type="year-month"
-            @change="timeChange"
-          />
-          <br>
-          <br>
-          <br>
-          <p class="requirement">根据身份筛选</p>
-          <van-picker :columns="columns" @change="onChange" :default-index="2"/>
-        </van-popup>
-      </div>
-      <div class="accept-message">
-        <van-list v-for="(item,index) in messageList" :key="index" @click="get(item.title)">
-          <van-swipe-cell :right-width="span_width">
-            <van-cell-group>
-              <base-cell
-                clickable
-                :title="item.title"
-                :value="item.status"
-                :time="item.time"
-                :label="item.content|ellipsis"
-                @click="clickmessage(item)"
-              ></base-cell>
-              <!-- <van-panel :title=item.title :desc=item.desc :status=item.status > </van-panel> -->
-            </van-cell-group>
-            <span slot="right">
-              <div id="right_span">
-                <span class="top" @click="handleTop(index)">置顶</span>
-                <span class="delete" @click="handleDelete(item.id,index)">删除</span>
-              </div>
-            </span>
-          </van-swipe-cell>
-        </van-list>
-      </div>
+      <van-pull-refresh class="main" v-model="isLoading" @refresh="onRefresh">
+        <div>
+          <van-search
+            v-model="search"
+            placeholder="请输入搜索关键词"
+            shape="round"
+            @search="onSearch"
+            class="search"
+          ></van-search>
+          <!-- <div class="blank"></div>
+          <van-cell
+            title="筛选"
+            is-link
+            :value="select_time+select_content"
+            class="shaixuan"
+            @click="openprop()"
+          />-->
+          <div class="blank"></div>
+          <van-popup v-model="show" position="left" class="popup">
+            <p class="requirement">根据时间筛选</p>
+            <van-datetime-picker
+              cancel-button-text="s"
+              v-model="currentDate"
+              type="year-month"
+              @change="timeChange"
+            />
+            <br>
+            <br>
+            <br>
+            <p class="requirement">根据身份筛选</p>
+            <van-picker :columns="columns" @change="onChange" :default-index="2"/>
+          </van-popup>
+        </div>
+        <div class="accept-message">
+          <van-list v-for="(item,index) in messageList" :key="index" @click="get(item.title)">
+            <van-swipe-cell :right-width="span_width">
+              <van-cell-group>
+                <base-cell
+                  clickable
+                  :title="item.title"
+                  :value="item.status"
+                  :time="item.time"
+                  :label="item.content|ellipsis"
+                  @click="clickmessage(item)"
+                ></base-cell>
+                <!-- <van-panel :title=item.title :desc=item.desc :status=item.status > </van-panel> -->
+              </van-cell-group>
+              <span slot="right">
+                <div id="right_span">
+                  <!-- <span class="top" @click="handleTop(index)">置顶</span> -->
+                  <span class="delete" @click="handleDelete(item.id,index)">删除</span>
+                </div>
+              </span>
+            </van-swipe-cell>
+          </van-list>
+        </div>
+        <!-- <div class="bottom-blank"></div> -->
+      </van-pull-refresh>
     </div>
   </div>
 </template>
@@ -70,14 +73,14 @@
 import BaseCell from "../Common/BaseCell";
 import eventBus from "../../utils/eventBus";
 import { getNoReadMsg, editMsgStatus } from "../../api/home.js";
-import IndexedDB from '../../api/IndexedDB'
+import IndexedDB from "../../api/IndexedDB";
 export default {
   components: {
     BaseCell
   },
   data() {
     return {
-      AllData:[],
+      AllData: [],
       search: "",
       currentDate: new Date(),
       select_content: "请选择",
@@ -119,27 +122,31 @@ export default {
       }
       this.MessageList.push.apply(this.MessageList, b);
       this.messageList = this.MessageList;
-      this.$store.commit('ReceiveNum', this.MessageList.length);
+      this.$store.commit("ReceiveNum", this.MessageList.length);
       //存入数据库
-      let MessageList = this.MessageList;   
+      let MessageList = this.MessageList;
       let TestDB = null;
       var _this = this;
-      IndexedDB.openDB('TestDB', 1, TestDB, {
-                    name: 'Test',
-                    key: 'id'
-                }, function (db) {
-                    let TestDB = db;
-                    IndexedDB.putData(TestDB, 'Test', MessageList);
-                     IndexedDB.getAllData(TestDB, 'Test', function (result){
-                       console.log("========================")
-                      //  console.log(result)
-                       _this.AllData = result;
-                     }); 
-                    //  IndexedDB.putData(vshopDB, 'vshop', [_this.$store.state.status])
-                }); 
+      IndexedDB.openDB(
+        "TestDB",
+        1,
+        TestDB,
+        {
+          name: "Test",
+          key: "id"
+        },
+        function(db) {
+          let TestDB = db;
+          IndexedDB.putData(TestDB, "Test", MessageList);
+          IndexedDB.getAllData(TestDB, "Test", function(result) {
+            console.log("========================");
+            //  console.log(result)
+            _this.AllData = result;
+          });
+          //  IndexedDB.putData(vshopDB, 'vshop', [_this.$store.state.status])
+        }
+      );
     });
-    
-   
   },
   computed: {
     tables() {
@@ -177,15 +184,14 @@ export default {
 
   //获取div宽度
   mounted() {
-    console.log("----------------------------")
-    console.log(this.TestData)
+    console.log("----------------------------");
+    console.log(this.TestData);
     var div = document.getElementById("right_span");
     var width =
       div.style.width || div.clientWidth || div.offsetWidth || div.scrollWidth;
     this.span_width = width;
   },
   beforeDestroy() {
-    
     eventBus.$emit("message", this.message);
   },
   filters: {
@@ -214,9 +220,9 @@ export default {
     openprop: function() {
       this.show = true;
     },
-    handleTop(index) {
-      alert("置顶");
-    },
+    // handleTop(index) {
+    //   alert("置顶");
+    // },
     handleDelete(mid, index) {
       console.log(index);
       this.messageList.splice(index, 1);
@@ -253,8 +259,6 @@ export default {
     }
   }
 };
-
-
 </script>
 
 <style >
@@ -262,7 +266,9 @@ export default {
   height: 10px;
   background-color: #f2f2f2;
 }
-
+.contenet {
+  background: white;
+}
 .popup {
   height: 100%;
   width: 50%;
@@ -282,7 +288,7 @@ export default {
   font-size: 0px;
 }
 .search {
-  margin-top: 50px;
+  /* margin-top: 50px; */
   height: 40px;
 }
 .shaixuan {
@@ -306,9 +312,13 @@ export default {
   flex: 1;
   display: none;
 }
-.accept-message {
-  
-}
+/* .accept-message {
+  margin-bottom: 50px;
+} */
+/* .bottom-blank {
+  height: 50px;
+  background: white;
+} */
 .van-swipe-cell__right {
   width: 130px;
 }
@@ -338,8 +348,9 @@ export default {
   text-align: center;
   line-height: 65px;
 }
-.message .van-pull-refresh__track {
-  margin-bottom: 50px;
+.main .van-pull-refresh__track {
+  margin-top: 50px;
+  /* margin-bottom: 50px; */
   position: absolute;
   width: 100%;
 }

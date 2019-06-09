@@ -43,12 +43,12 @@
                     ></base-cell>
                     <!-- <base-panel @click="detail(item)" :title=item.sender :desc=item.title|ellipsis :status=item.status  :time="item.time"></base-panel> -->
                   </van-cell-group>
-                  <span slot="right">
+                  <!-- <span slot="right">
                     <div id="right_span">
                       <span class="top" @click="handleTop(index)">置顶</span>
                       <span class="delete" @click="handleDelete(index)">删除</span>
                     </div>
-                  </span>
+                  </span>-->
                 </van-swipe-cell>
               </van-list>
             </van-collapse-item>
@@ -112,13 +112,13 @@ export default {
       this.message = message;
       this.$router.push("/message");
     },
-    handleTop(index) {
-      this.messageList.unshift(this.messageList[index]);
-      this.messageList.splice(index + 1, 1);
-    },
-    handleDelete(index) {
-      alert("删除");
-    },
+    // handleTop(index) {
+    //   this.messageList.unshift(this.messageList[index]);
+    //   this.messageList.splice(index + 1, 1);
+    // },
+    // handleDelete(index) {
+    //   alert("删除");
+    // },
     onRefresh() {
       setTimeout(() => {
         this.$notify({

@@ -16,11 +16,12 @@
 
     <div class="message_content_div">
       <van-field v-model="message_title" clearable label="姓名" placeholder="请输入姓名"/>
-      <van-cell title="身份" is-link value="查看您的发件身份"/>
+      <!-- <van-cell title="身份" is-link value="查看您的发件身份"/> -->
       <div class="blank"></div>
       <van-field v-model="message_title" clearable label="电话" placeholder="请输入电话"/>
       <div class="blank"></div>
       <van-field v-model="message_title" clearable label="QQ" placeholder="请输入QQ"/>
+      <div class="blank"></div>
     </div>
   </div>
 </template>
@@ -47,6 +48,9 @@ export default {
   background: #F2F2F2;
   height: 50px;
 } */
+.message_content_div {
+  padding-top: 50px;
+}
 .blank {
   height: 10px;
 }

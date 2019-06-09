@@ -169,7 +169,7 @@ export default {
       var title = this.message_title;
       var content = this.message_content;
       var senderId = this.$store.state.id;
-      var senderName = this.$store.state.user.senderName;
+      var senderName = this.$store.state.userName;
       var roleId = this.roleId;
       var deptId = this.deptId;
 

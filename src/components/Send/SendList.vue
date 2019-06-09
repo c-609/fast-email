@@ -22,7 +22,7 @@
               </van-cell-group>
               <span slot="right">
                 <div id="right_span">
-                  <span class="top" @click="handleTop(index)">置顶</span>
+                  <!-- <span class="top" @click="handleTop(index)">置顶</span> -->
                   <span class="delete" @click="handleDelete(index)">删除</span>
                 </div>
               </span>
@@ -80,6 +80,7 @@ export default {
   created() {
     getSendList(0).then(res => {
       console.log(res);
+      console.log("dsf");
       this.MessageList = res.data.data;
       var i = 0;
       for (i; i < this.MessageList.length; i++) {
@@ -116,11 +117,15 @@ export default {
       this.message = message;
       this.$router.push("/sendmsgcontent");
     },
-    handleTop(index) {
-      alert("置顶");
-    },
+    // handleTop(index) {
+    //   alert("置顶");
+    // },
     handleDelete(index) {
-      alert("删除");
+      getSendList(-1).then(res => {
+        if (res.code == 0) {
+          this.$toast("删除成功");
+        }
+      });
     },
     onRefresh() {
       setTimeout(() => {
@@ -204,7 +209,7 @@ export default {
 }
 .main .van-pull-refresh__track {
   margin-top: 50px;
-  margin-bottom: 50px;
+  /* margin-bottom: 50px; */
   position: absolute;
   width: 100%;
 }

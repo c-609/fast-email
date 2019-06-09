@@ -51,7 +51,7 @@ export default {
       editMsgStatus(this.mid, 1);
     });
   },
-  beforeDestroy(){
+  beforeDestroy() {
     eventBus.$off("message");
   },
   methods: {
@@ -66,9 +66,9 @@ export default {
 };
 </script>
 <style>
-.detailed {
+/* .detailed {
   padding-top: 50px;
-}
+} */
 
 .message_content {
   padding: 30px;
@@ -77,7 +77,7 @@ export default {
   background: #f2f2f2;
   height: 50px;
 }
-.van-cell {
+/* .van-cell {
   font-size: 18px;
-}
+} */
 </style>
