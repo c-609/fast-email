@@ -79,14 +79,11 @@ export default {
   },
   created() {
     getSendList(0).then(res => {
-      console.log(res);
-      console.log("dsf");
       this.MessageList = res.data.data;
       var i = 0;
       for (i; i < this.MessageList.length; i++) {
         this.MessageList[i].readRatio =
           this.MessageList[i].readNumber + "/" + this.MessageList[i].number;
-        console.log(this.MessageList[i].readRatio);
       }
     });
   },

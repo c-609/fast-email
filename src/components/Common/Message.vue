@@ -10,18 +10,19 @@
       @click-right="onClickRight"
       class="message_top"
     />
-
-    <van-collapse v-model="activeName" accordion class="detailed">
-      <van-collapse-item :title="title" name="1">
-        发布时间 : {{time}}
-        <br>
-        发布人 : {{senderName}}
-      </van-collapse-item>
-    </van-collapse>
-    <div class="blank"></div>
-    <van-cell title="通知内容："></van-cell>
-    <van-field v-model="content" type="textarea" rows="15"/>
-    <!-- <p class>{{content}}</p> -->
+    <div class="detail">
+      <van-collapse v-model="activeName" accordion>
+        <van-collapse-item :title="title" name="1">
+          发布时间 : {{time}}
+          <br>
+          发布人 : {{senderName}}
+        </van-collapse-item>
+      </van-collapse>
+      <div class="blank"></div>
+      <van-cell title="通知内容："></van-cell>
+      <van-field v-model="content" type="textarea" disabled rows="15"/>
+      <!-- <p class>{{content}}</p> -->
+    </div>
   </div>
 </template>
 
@@ -69,9 +70,9 @@ export default {
 };
 </script>
 <style>
-/* .detailed {
+.detail {
   padding-top: 50px;
-} */
+}
 
 .message_content {
   padding: 30px;
@@ -79,6 +80,7 @@ export default {
 .message_top {
   background: #f2f2f2;
   height: 50px;
+  /* margin-bottom: 50px; */
 }
 /* .van-cell {
   font-size: 18px;
