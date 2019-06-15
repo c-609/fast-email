@@ -33,14 +33,16 @@ export default {
             }
         };
     },
-    // 获取所有数据
-    getAllData: function (db, storename, callback) {
+     // 获取所有已删除数据
+     getDeletedData: function (db, storename, callback) {
         var store = db.transaction(storename, 'readonly').objectStore(storename)
         var allData = []
         store.openCursor().onsuccess = function(event){
             var cursor = event.target.result;
               if(cursor){
-              allData.unshift(cursor.value);
+                  if(cursor.value.status == -1){
+                    allData.unshift(cursor.value);
+                  }
               cursor.continue();
               }else{
                 if (callback && (typeof callback === 'function')) {
@@ -49,11 +51,47 @@ export default {
                 }
                   
               }
-           }
-        request.onerror = function () {
-            console.log('通过KEY获取数据报错');
-        };
-        
+           }  
+    },
+    // 获取所有未删除数据
+    getAllData: function (db, storename, callback) {
+        var store = db.transaction(storename, 'readonly').objectStore(storename)
+        var allData = []
+        store.openCursor().onsuccess = function(event){
+            var cursor = event.target.result;
+              if(cursor){
+                  if(cursor.value.status == -1){
+                      
+                  }else{
+                    allData.unshift(cursor.value);
+                  }
+              cursor.continue();
+              }else{
+                if (callback && (typeof callback === 'function')) {
+                    // 将查询结果传入回调函数
+                    callback(allData);
+                }
+                  
+              }
+           }  
+    },
+    //获取所有消息的Id
+    getAllDataId: function (db, storename, callback) {
+        var store = db.transaction(storename, 'readonly').objectStore(storename)
+        var allDataId = []
+        store.openCursor().onsuccess = function(event){
+            var cursor = event.target.result;
+              if(cursor){
+              allDataId.push(cursor.value.id);
+              cursor.continue();
+              }else{
+                if (callback && (typeof callback === 'function')) {
+                    // 将查询结果传入回调函数
+                    callback(allDataId.join(','));
+                }
+                  
+              }
+           }  
     },
     // 删除数据库
     deleteDB: function (dbname, callback) {
@@ -72,10 +110,26 @@ export default {
         dbname.close();
         console.log('数据库已关闭');
     },
+    //添加用户数据
+    putUserInfo: function (db, storename, dataArr, callback) {
+        var store = db.transaction(storename, 'readwrite').objectStore(storename),
+            request;
+            request = store.put(dataArr);
+            request.onerror = function () {
+                console.error('ADD添加数据报错');
+            };
+            request.onsuccess = function () {
+                if (callback && (typeof callback === 'function')) {
+                    callback();
+                }
+            };
+    },
     // 添加数据，add添加新值
     addData: function (db, storename, dataArr, callback) {
         var store = db.transaction(storename, 'readwrite').objectStore(storename),
             request;
+            console.log("11111111111111");
+            console.log(dataArr.length)
         for (var i = 0, len = dataArr.length; i < len; i++) {
             request = store.add(dataArr[i]);
             request.onerror = function () {
@@ -88,11 +142,31 @@ export default {
             };
         }
     },
+    //修改消息状态（0,1，-1）
+    updateStatus: function (db, storename, key,status) {
+        var store = db.transaction(storename, 'readwrite').objectStore(storename),
+            request;
+        request = store.get(key);
+        request.onerror = function () {
+            console.log('通过KEY获取数据报错');
+        };
+        request.onsuccess = function (event) {
+            var result = event.target.result;
+            result.status = status
+            console.log("-----------------")
+            console.log(result)
+            request = store.put(result);
+            request.onerror = function () {
+                console.error('修改状态出错'); 
+            }
+        }
+    },
     // 更新旧值
     putData: function (db, storename, dataArr, callback) {
         var store = db.transaction(storename, 'readwrite').objectStore(storename),
             request;
         for (var i = 0, len = dataArr.length; i < len; i++) {
+           
             request = store.put(dataArr[i]);
             request.onerror = function () {
                 console.error('PUT添加数据报错');

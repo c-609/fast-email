@@ -10,10 +10,16 @@ import MineContent from './../components/Mine/MineContent.vue'
 import EditMessage from './../components/Send/EditMessage.vue'
 import EditMine from './../components/Mine/EditMine.vue'
 import SendMsgContent from './../components/Send/SendMsgContent.vue'
+import Recycling from './../components/Mine/Recycling.vue'
 Vue.use(Router)
 
 export default new Router({
   routes: [{
+      path: '/recycling',
+      name: 'Recycling',
+      component: Recycling
+    },
+    {
       path: '/',
       name: 'Login',
       component: Login

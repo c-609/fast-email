@@ -19,13 +19,6 @@ export default new Vuex.Store({
     user: '',
   },
   mutations: {
-    login(state, user) {
-
-      state.userName = user.username;
-      state.roles = user.roles;
-      state.depts = user.depts
-      state.id = user.id;
-    },
     ReceiveNum(state, num) {
       state.receiveNum = num;
     },

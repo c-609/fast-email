@@ -28,7 +28,7 @@
               </div>
               <van-list>
                 <van-swipe-cell
-                  :right-width="span_width"
+                  
                   v-for="(item,index) in messageList"
                   :key="index"
                 >
@@ -77,8 +77,8 @@ export default {
   },
   data() {
     return {
+      receiptNumber:0,
       sendNumber: "",
-      receiptNumber: "",
       span_width: 130,
       active: 0,
       activeNames: ["1", "2"],
@@ -89,12 +89,12 @@ export default {
     };
   },
   //获取div宽度
-  mounted() {
-    var div = document.getElementById("right_span");
-    var width =
-      div.style.width || div.clientWidth || div.offsetWidth || div.scrollWidth;
-    this.span_width = width;
-  },
+  // mounted() {
+  //   var div = document.getElementById("right_span");
+  //   var width =
+  //     div.style.width || div.clientWidth || div.offsetWidth || div.scrollWidth;
+  //   this.span_width = width;
+  // },
   beforeDestroy() {
     eventBus.$emit("message", this.message);
   },
@@ -120,7 +120,9 @@ export default {
     //   alert("删除");
     // },
     onRefresh() {
-      setTimeout(() => {
+      
+      getNoReadMsg(0).then(res => {
+      if(res.data.code == 0){
         this.$notify({
           message: "刷新成功",
           duration: 500,
@@ -128,7 +130,19 @@ export default {
         });
         this.isLoading = false;
         this.count++;
-      }, 500);
+      }else{
+        this.$notify({
+          message: "刷新失败，请重试",
+          duration: 500,
+          background: "#F56C6C"
+        });
+        this.isLoading = false;
+        this.count++;
+      }
+      this.messageList = res.data.data;
+    });
+      
+     
     },
     onClose(clickPosition, instance) {
       switch (clickPosition) {

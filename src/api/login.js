@@ -9,7 +9,12 @@ export function loginObj(username, password) {
     }
   })
 }
-
+export function logoutObj() {
+  return request({
+    url: '/logout',
+    method: 'post',
+  })
+}
 //根据角色id数组获取角色
 export function getRolesById(ids) {
   return request({

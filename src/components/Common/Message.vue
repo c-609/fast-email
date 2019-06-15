@@ -29,6 +29,7 @@
 <script>
 import eventBus from "../../utils/eventBus";
 import { editMsgStatus } from "../../api/home";
+import IndexedDB from "../../api/IndexedDB";
 export default {
   data() {
     return {
@@ -43,6 +44,7 @@ export default {
   },
 
   created() {
+   
     eventBus.$on("message", res => {
       console.log(res);
       this.title = res.title;
@@ -53,6 +55,21 @@ export default {
       this.mid = res.id;
 
       editMsgStatus(this.mid, 1);
+      let TestDB = null;
+      let _this = this;
+      IndexedDB.openDB(
+      "TestDB",
+      1, 
+      TestDB,
+      {
+        name: "Test",
+        key: "id"
+      },
+      function(db) {
+        let TestDB = db;
+        IndexedDB.updateStatus(TestDB, "Test",_this.mid, 1)   
+      }
+    );
     });
   },
   beforeDestroy() {

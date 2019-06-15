@@ -17,7 +17,7 @@ Vue.use(Vant)
 
 
 
-// Axios.defaults.baseURL = '119.29.101.166:8087'
+// Axios.defaults.baseURL = 'http://119.29.101.166:8087'
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

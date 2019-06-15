@@ -20,6 +20,7 @@
 <script>
 import {loginObj, getRolesById,getDeptsById ,getRoleByDept} from '@/api/login.js'
 import { mapState } from "vuex";
+import IndexedDB from "../../api/IndexedDB";
 export default {
   
  data(){
@@ -29,6 +30,36 @@ export default {
          password:'456',
          user: "",
      }
+ },
+ beforeCreate(){
+    let UserDataDB = null;
+    let UserInfo = this.user;
+    let _this = this;
+    IndexedDB.openDB(
+    "UserDataDB",
+    1,
+    UserDataDB,
+    {
+    name: "UserData",
+    key: "username"
+    },
+    function(db) {
+      let UserDataDB = db; 
+      IndexedDB.getAllData(UserDataDB, "UserData",function(result){
+        let uname = result[0].username;
+        let password = result[0].password;
+        if(uname!=null && password!=null){
+          loginObj(uname,password).then(res=>{
+            if(res.data.code == 0){
+            _this.$router.push("/home") 
+            }else{
+              _this.$toast('登录失败')
+            }
+          })
+        }
+      });
+    }
+  ); 
  },
  methods:{
    
@@ -43,6 +74,8 @@ export default {
      }else{
         loginObj(this.acount,this.password).then(res=>{  
           this.user = res.data.data;
+          if(res.data.code == 0){
+          this.user.password = this.password;
           var ids = this.user.roleList.join(",")
           getRolesById(ids).then(res=>{
             var i;
@@ -75,16 +108,33 @@ export default {
                     }           
                 })
               }
-
-
               this.user.depts = depts;
-              this.$store.commit('login',this.user);
-              console.log(this.user)
+              let UserDataDB = null;
+              let UserInfo = this.user;
+                IndexedDB.openDB(
+                  "UserDataDB",
+                  1,
+                  UserDataDB,
+                  {
+                    name: "UserData",
+                    key: "username"
+                  },
+                  function(db) {
+                    let UserDataDB = db; 
+                    IndexedDB.putUserInfo(UserDataDB, "UserData",UserInfo);
+                  }
+                );
+              
             })   
           this.$router.push("/home")
         })
+        }else{
+            this.$notify('账号或密码错误');
+            this.loading = false;
+        }
      })
      }
+     
  }
 
  }

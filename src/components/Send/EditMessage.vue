@@ -79,6 +79,7 @@
 <script>
 import { getDeptTree, sendMsg } from "../../api/send";
 import BaseTreeSelect from "../Common/BaseTreeSelelct";
+import IndexedDB from "../../api/IndexedDB";
 export default {
   components: {
     BaseTreeSelect
@@ -90,18 +91,18 @@ export default {
         label: "name",
         children: "children"
       },
+      id:'',
+      username:'',
       showSender: false,
       showRecipient: false,
       message_title: "",
       message_content: "",
-
-      // senderIdentityList: this.$store.state.roles,
+      senderIdentityList:'',
       roleId: 0,
-      // deptId: this.deptItems[0].id,
       deptId: 0,
       roleName: "",
       deptName: "",
-      deptItems: this.$store.state.depts,
+      deptItems: '',
       deptIndex: 0,
       deptIds: [],
       recipients: "",
@@ -115,6 +116,27 @@ export default {
       // console.log("dept");
       // console.log(this.deptData);
     });
+    let UserDataDB = null;
+    let _this = this;
+    IndexedDB.openDB(
+    "UserDataDB",
+    1,
+    UserDataDB,
+    {
+    name: "UserData",
+    key: "username"
+    },
+      function(db) {
+        let UserDataDB = db; 
+        IndexedDB.getAllData(UserDataDB, "UserData",function(result){
+            console.log(result[0].username)
+            _this.senderIdentityList = result[0].roles;
+            _this.deptItems =  result[0].depts;
+            _this.id = result[0].id;
+            _this.username = result[0].username;
+        });
+      }
+    );
   },
   methods: {
     choseSenderIdentify() {
@@ -164,12 +186,10 @@ export default {
     sendMessage() {
       console.log(this.message_title);
       console.log(this.message_content);
-      // console.log(this.senderIdentityList[this.senderIdentity].id);
-      // console.log(this.recipientDeptIds);
       var title = this.message_title;
       var content = this.message_content;
-      var senderId = this.$store.state.id;
-      var senderName = this.$store.state.userName;
+      var senderId = this.id;
+      var senderName = this.userName;
       var roleId = this.roleId;
       var deptId = this.deptId;
 
