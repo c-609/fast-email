@@ -23,7 +23,7 @@
               <span slot="right">
                 <div id="right_span">
                   <!-- <span class="top" @click="handleTop(index)">置顶</span> -->
-                  <span class="delete" @click="handleDelete(index)">删除</span>
+                  <span class="delete" @click="handleDelete(index,item.readRatio)">删除</span>
                 </div>
               </span>
             </van-swipe-cell>
@@ -44,7 +44,7 @@ export default {
   },
   data() {
     return {
-      span_width: 130,
+      span_width: 65,
       active: 0,
       count: 0,
       isLoading: false,
@@ -117,12 +117,19 @@ export default {
     // handleTop(index) {
     //   alert("置顶");
     // },
-    handleDelete(index) {
-      getSendList(-1).then(res => {
-        if (res.code == 0) {
-          this.$toast("删除成功");
-        }
-      });
+    handleDelete(index, readRatio) {
+      var a = readRatio.split("/");
+      if (a[0] != a[1]) {
+        this.$toast("消息正在送达中，禁止删除");
+      } else {
+        getSendList(-1).then(res => {
+          if (res.data.code == 0) {
+            this.MessageList.splice(index, 1);
+          } else {
+            this.$toast("删除失败！");
+          }
+        });
+      }
     },
     onRefresh() {
       setTimeout(() => {
@@ -176,11 +183,11 @@ export default {
 }
 
 .van-swipe-cell__right {
-  width: 130px;
+  width: 65px;
 }
 .right {
   display: flex;
-  width: 130rem;
+  width: 65rem;
 }
 .top {
   position: absolute;
@@ -197,7 +204,7 @@ export default {
   font-size: 16px;
   color: white;
   /* margin: 20px 15px; */
-  margin-left: 65px;
+  /* margin-left: 65px; */
   height: 64.98px;
   width: 65px;
   background: #f44;

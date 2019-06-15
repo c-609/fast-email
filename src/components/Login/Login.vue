@@ -98,19 +98,41 @@ export default {
                 // depts[i].children = [];
                 var j = i;
                 getRoleByDept(depts[i].id, this.user.id).then(res=>{
+                 
                 //  console.log( depts[j].text)
                     depts[j].children = res.data.data; 
-                    
+                     
                     var k=0;
                     for(k;k<res.data.data.length;k++){
                       depts[j].children[k].text = res.data.data[k].name;
-                      // console.log(depts[j].children)
-                    }           
+                     
+                      
+                    }   
+               let UserDeptDB = null;
+              let Dept = depts;
+              
+                IndexedDB.openDB(
+                  "UserDeptDB",
+                  1,
+                  UserDeptDB,
+                  {
+                    name: "UserDept",
+                    key: "id"
+                  },
+                  function(db) {
+                    let UserDeptDB = db;
+                   
+                    IndexedDB.putData(UserDeptDB, "UserDept",Dept);
+                  }
+                );    
                 })
+                
               }
-              this.user.depts = depts;
+             
+               
               let UserDataDB = null;
               let UserInfo = this.user;
+               
                 IndexedDB.openDB(
                   "UserDataDB",
                   1,

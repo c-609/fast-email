@@ -25,7 +25,6 @@
             @click="openprop()"
           />-->
           <div class="blank"></div>
-         
         </div>
         <div class="accept-message">
           <van-list v-for="(item,index) in messageList" :key="index" @click="get(item.title)">
@@ -41,16 +40,12 @@
                 ></base-cell>
                 <!-- <van-panel :title=item.title :desc=item.desc :status=item.status > </van-panel> -->
               </van-cell-group>
-         
-              <span slot="right" >
-                  <div id ="right_span">
-                      <span @click="handleDelete(item.id,index,item.status)">删除</span>
-                  </div>
-                </span> 
-              
-   
-              
-              
+
+              <span slot="right">
+                <div id="right_span">
+                  <span class="delete" @click="handleDelete(item.id,index,item.status)">删除</span>
+                </div>
+              </span>
             </van-swipe-cell>
           </van-list>
         </div>
@@ -71,7 +66,7 @@ export default {
   },
   data() {
     return {
-      AllDataId:"sadas",
+      AllDataId: "sadas",
       AllData: [],
       search: "",
       currentDate: new Date(),
@@ -96,7 +91,7 @@ export default {
     };
   },
   created() {
-     this.getData();
+    this.getData();
   },
   computed: {
     tables() {
@@ -135,9 +130,10 @@ export default {
   //获取div宽度
   mounted() {
     var div = document.getElementById("right_span");
-    var width = div.style.width || div.clientWidth || div.offsetWidth || div.scrollWidth;
+    var width =
+      div.style.width || div.clientWidth || div.offsetWidth || div.scrollWidth;
     this.span_width = width;
-    console.log(width)
+    console.log(width);
   },
   beforeDestroy() {
     eventBus.$emit("message", this.message);
@@ -152,7 +148,7 @@ export default {
     }
   },
   methods: {
-    getData(){
+    getData() {
       let TestDB = null;
       let _this = this;
       IndexedDB.openDB(
@@ -168,29 +164,29 @@ export default {
           IndexedDB.getAllDataId(TestDB, "Test", function(result) {
             let AllDataId = result;
             var a = new Array();
-            getNoReadMsg(0,AllDataId).then(res => {
+            getNoReadMsg(0, AllDataId).then(res => {
               _this.MessageList = res.data.data;
             });
             var b = new Array();
-            getNoReadMsg(1,AllDataId).then(res => {
+            getNoReadMsg(1, AllDataId).then(res => {
               b = res.data.data;
-              if(_this.isLoading == true){
-                if(res.data.code == 0){
-                    _this.$notify({
+              if (_this.isLoading == true) {
+                if (res.data.code == 0) {
+                  _this.$notify({
                     message: "刷新成功",
                     duration: 500,
                     background: "#1989fa"
-                });
-                   _this.isLoading = false;
-                   _this.count++;
-                }else{
-                    _this.$notify({
+                  });
+                  _this.isLoading = false;
+                  _this.count++;
+                } else {
+                  _this.$notify({
                     message: "刷新失败，请重试",
                     duration: 500,
                     background: "#F56C6C"
-                });
-                   _this.isLoading = false;
-                   _this.count++;
+                  });
+                  _this.isLoading = false;
+                  _this.count++;
                 }
               }
               _this.MessageList.push.apply(_this.MessageList, b);
@@ -211,19 +207,19 @@ export default {
                   let TestDB = db;
                   IndexedDB.addData(TestDB, "Test", MessageList);
                   IndexedDB.getAllData(TestDB, "Test", function(result) {
-                      var i;
+                    var i;
                     for (i = 0; i < result.length; i++) {
-                      if( result[i].status == 0){
-                        result[i].status = "未读"
-                      }else if(result[i].status == 1){
-                        result[i].status = "已读"
-                      }else{
-                          result[i].status = "删除"
-                      }  
+                      if (result[i].status == 0) {
+                        result[i].status = "未读";
+                      } else if (result[i].status == 1) {
+                        result[i].status = "已读";
+                      } else {
+                        result[i].status = "删除";
+                      }
                     }
                     _this.AllData = result;
-                    __this.messageList = result
-                  })
+                    __this.messageList = result;
+                  });
                 }
               );
             });
@@ -250,30 +246,35 @@ export default {
     // handleTop(index) {
     //   alert("置顶");
     // },
-    handleDelete(mid, index,status) {
-      if(status == '未读'){
-          this.$toast('未读通知禁止删除')
-      }else{
-      editMsgStatus(mid, -1).then(res => {
-        console.log(res);
-      });
-      let TestDB = null;
-      var id = mid;
-      IndexedDB.openDB(
-        "TestDB",
-        1,
-        TestDB,
-        {
-          name: "Test",
-          key: "id"
-        },
-        function(db) {
-          let TestDB = db;
-          console.log("----------------------")
-          console.log(id);
-          IndexedDB.updateStatus(TestDB, "Test",id, -1);
-        }
-      );
+    handleDelete(mid, index, status) {
+      if (status == "未读") {
+        alert(mid);
+        this.$toast("未读通知禁止删除");
+      } else {
+        editMsgStatus(mid, -1).then(res => {
+          if (res.data.code == 0) {
+            this.messageList.splice(index, 1);
+          } else {
+            this.$toast("删除失败！");
+          }
+        });
+        let TestDB = null;
+        var id = mid;
+        IndexedDB.openDB(
+          "TestDB",
+          1,
+          TestDB,
+          {
+            name: "Test",
+            key: "id"
+          },
+          function(db) {
+            let TestDB = db;
+            console.log("----------------------");
+            console.log(id);
+            IndexedDB.updateStatus(TestDB, "Test", id, -1);
+          }
+        );
       }
     },
     onRefresh() {
@@ -288,7 +289,7 @@ export default {
           break;
         case "right":
           Dialog.confirm({
-          message: "确定删除吗？"
+            message: "确定删除吗？"
           }).then(() => {
             instance.close();
           });
@@ -360,17 +361,28 @@ export default {
   display: flex;
   width: 65px;
 }
-.delete {
+/* .delete {
   position: absolute;
   font-size: 16px;
   color: white;
   width: 65px;
   height: 64.98px;
-  
+
+  text-align: center;
+  line-height: 65px;
+} */
+.delete {
+  position: absolute;
+  font-size: 16px;
+  color: white;
+  /* margin: 20px 15px; */
+  margin-left: 65px;
+  height: 64.98px;
+  width: 65px;
+  background: #f44;
   text-align: center;
   line-height: 65px;
 }
-
 .main .van-pull-refresh__track {
   margin-top: 50px;
   /* margin-bottom: 50px; */
@@ -378,11 +390,11 @@ export default {
   width: 100%;
 }
 
- .van-swipe-cell__right{
-  width:65px;
+/* .van-swipe-cell__right {
+  width: 65px;
   color: white;
   background: red;
   text-align: center;
-  line-height: 65px
-}
+  line-height: 65px;
+} */
 </style>

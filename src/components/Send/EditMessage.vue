@@ -91,18 +91,18 @@ export default {
         label: "name",
         children: "children"
       },
-      id:'',
-      username:'',
+      id: "",
+      username: "",
       showSender: false,
       showRecipient: false,
       message_title: "",
       message_content: "",
-      senderIdentityList:'',
+      senderIdentityList: "",
       roleId: 0,
       deptId: 0,
       roleName: "",
       deptName: "",
-      deptItems: '',
+      deptItems: "",
       deptIndex: 0,
       deptIds: [],
       recipients: "",
@@ -113,27 +113,41 @@ export default {
   created() {
     getDeptTree().then(res => {
       this.deptData = res.data.data;
-      // console.log("dept");
-      // console.log(this.deptData);
     });
     let UserDataDB = null;
     let _this = this;
     IndexedDB.openDB(
-    "UserDataDB",
-    1,
-    UserDataDB,
-    {
-    name: "UserData",
-    key: "username"
-    },
+      "UserDataDB",
+      1,
+      UserDataDB,
+      {
+        name: "UserData",
+        key: "username"
+      },
       function(db) {
-        let UserDataDB = db; 
-        IndexedDB.getAllData(UserDataDB, "UserData",function(result){
-            console.log(result[0].username)
-            _this.senderIdentityList = result[0].roles;
-            _this.deptItems =  result[0].depts;
-            _this.id = result[0].id;
-            _this.username = result[0].username;
+        let UserDataDB = db;
+        IndexedDB.getAllUserData(UserDataDB, "UserData", function(result) {
+          _this.senderIdentityList = result[0].roles;
+
+          _this.id = result[0].id;
+          _this.username = result[0].username;
+        });
+      }
+    );
+
+    let UserDeptDB = null;
+    IndexedDB.openDB(
+      "UserDeptDB",
+      1,
+      UserDeptDB,
+      {
+        name: "UserDept",
+        key: "id"
+      },
+      function(db) {
+        let UserDeptDB = db;
+        IndexedDB.getAllData(UserDeptDB, "UserDept", function(result) {
+          _this.deptItems = result;
         });
       }
     );
@@ -156,13 +170,12 @@ export default {
       if (this.deptId == "") this.deptId = this.deptItems[0].id;
       this.roleName = data.name;
       this.roleId = data.id;
-      console.log(data);
     },
     choseSenderOk() {
       if (this.deptName == "" && this.roleName != "")
         this.deptName = this.deptItems[0].name;
-      // if (this.roleName == "")
-      //   this.roleName = this.deptItems[this.deptId].children[0].name;
+      if (this.roleName == "")
+        this.roleName = this.deptItems[this.deptId].children[0].name;
       this.senderIdentity = this.deptName + " " + this.roleName;
       this.showSender = false;
     },
@@ -189,7 +202,7 @@ export default {
       var title = this.message_title;
       var content = this.message_content;
       var senderId = this.id;
-      var senderName = this.userName;
+      var senderName = this.username;
       var roleId = this.roleId;
       var deptId = this.deptId;
 

@@ -20,10 +20,17 @@
         <div class="blank"></div>
         <van-cell title="电话2" icon="phone-circle-o" is-link value="0732-84802007" size="large"/>
         <div class="blank"></div>
-        <van-cell title="回收站" icon="delete" is-link value="查看已删除通知" size="large" to="/recycling" />
+        <van-cell title="回收站" icon="delete" is-link value="查看已删除通知" size="large" to="/recycling"/>
         <div class="blank"></div>
       </van-cell-group>
-      <van-cell class="outlogin" title="退出登录" clickable icon="close" size="large" @click="logout()"/>
+      <van-cell
+        class="outlogin"
+        title="退出登录"
+        clickable
+        icon="close"
+        size="large"
+        @click="logout()"
+      />
       <div class="blank"></div>
       <van-popup v-model="show" position="left" class="shenfeng">
         身份信息
@@ -36,33 +43,33 @@
 <script>
 import eventBus from "../../utils/eventBus";
 import IndexedDB from "../../api/IndexedDB";
-import {logoutObj} from "../../api/login";
+import { logoutObj } from "../../api/login";
 export default {
   data() {
     return {
-      userName: '',
-      roles: '',
+      userName: "",
+      roles: "",
       show: false,
       columns: ["信息院老师", "信息院院长", "信息院书记"]
     };
   },
-  created(){
+  created() {
     let UserDataDB = null;
     let _this = this;
     IndexedDB.openDB(
-    "UserDataDB",
-    1,
-    UserDataDB,
-    {
-    name: "UserData",
-    key: "username"
-    },
+      "UserDataDB",
+      1,
+      UserDataDB,
+      {
+        name: "UserData",
+        key: "username"
+      },
       function(db) {
-        let UserDataDB = db; 
-        IndexedDB.getAllData(UserDataDB, "UserData",function(result){
-            console.log(result[0].username)
-            _this.userName = result[0].username;
-            _this.roles = result[0].roles;
+        let UserDataDB = db;
+        IndexedDB.getAllUserData(UserDataDB, "UserData", function(result) {
+          console.log(result);
+          _this.userName = result[0].username;
+          _this.roles = result[0].roles;
         });
       }
     );
@@ -74,29 +81,29 @@ export default {
     onClickRight() {
       this.$router.push("/editmine");
     },
-    logout(){
-      logoutObj().then(res=>{
-        if(res.data.code == 0){
+    logout() {
+      logoutObj().then(res => {
+        if (res.data.code == 0) {
           this.$toast("退出成功");
           let UserDataDB = null;
           IndexedDB.openDB(
-          "UserDataDB",
-          1, 
-          UserDataDB,
-          {
-            name: "UserData",
-            key: "id"
-          },
-          function(db) {
-            let UserDataDB = db;
-            IndexedDB.clearData(UserDataDB, "UserData")    
-          }
-        );
-        this.$router.push('/')
-        }else{
-          this.$toast("未知错误")
+            "UserDataDB",
+            1,
+            UserDataDB,
+            {
+              name: "UserData",
+              key: "id"
+            },
+            function(db) {
+              let UserDataDB = db;
+              IndexedDB.clearData(UserDataDB, "UserData");
+            }
+          );
+          this.$router.push("/");
+        } else {
+          this.$toast("未知错误");
         }
-      })
+      });
     }
   }
 };
