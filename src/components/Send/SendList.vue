@@ -18,12 +18,14 @@
                   :time="item.time"
                   :label="item.content|ellipsis"
                   @click="clickMessage(item)"
+                  @touchstart="gotouchstart"
+                  @touchmove="gotouchmove"
+                  @touchend="gotouchend"
                 ></base-cell>
               </van-cell-group>
               <span slot="right">
                 <div id="right_span">
-                  <!-- <span class="top" @click="handleTop(index)">置顶</span> -->
-                  <span class="delete" @click="handleDelete(index,item.readRatio)">删除</span>
+                  <span @click="handleDelete(index,item.readRatio)">删除</span>
                 </div>
               </span>
             </van-swipe-cell>
@@ -44,37 +46,13 @@ export default {
   },
   data() {
     return {
+      width: 65,
       span_width: 65,
       active: 0,
       count: 0,
       isLoading: false,
       message: "",
-      MessageList: [
-        // {
-        //   title: "信息院全体同学",
-        //   desc: "香港回归祖国......",
-        //   readRatio: "12/20",
-        //   time: "18:15"
-        // },
-        // {
-        //   title: "信息院计科班",
-        //   desc: " 澳门回归祖国......",
-        //   readRatio: "13/20",
-        //   time: "18:15"
-        // },
-        // {
-        //   title: "信息院电子班",
-        //   desc: "香港回归祖国......",
-        //   readRatio: "14/40",
-        //   time: "18:15"
-        // },
-        // {
-        //   title: "信息院网工班",
-        //   desc: " 澳门回归祖国......",
-        //   readRatio: "14/50",
-        //   time: "18:15"
-        // }
-      ]
+      MessageList: []
     };
   },
   created() {
@@ -86,13 +64,31 @@ export default {
           this.MessageList[i].readNumber + "/" + this.MessageList[i].number;
       }
     });
-  },
-  //获取div宽度
-  mounted() {
+
     var div = document.getElementById("right_span");
-    var width =
-      div.style.width || div.clientWidth || div.offsetWidth || div.scrollWidth;
+    console.log(div);
+    var width = div.clientWidth || div.offsetWidth || div.scrollWidth;
+
+    alert("3343");
     this.span_width = width;
+    console.log(this.span_width);
+  },
+  // 获取div宽度
+  mounted() {
+    console.log(this.span_width);
+
+    setTimeout(function() {
+      var div = document.getElementById("right_span");
+      var width =
+        div.style.width ||
+        div.clientWidth ||
+        div.offsetWidth ||
+        div.scrollWidth;
+      alert("111");
+      this.span_width = width;
+      this.width = width;
+      console.log(this.span_width);
+    }, 1000);
   },
   beforeDestroy() {
     eventBus.$emit("sendMsgContent", this.message);
@@ -107,6 +103,28 @@ export default {
     }
   },
   methods: {
+    gotouchstart() {
+      let that = this;
+      clearTimeout(timeOutEvent); //清除定时器
+      timeOutEvent = 0;
+      timeOutEvent = setTimeout(function() {
+        //执行长按要执行的内容，
+        alert("rrr");
+      }, 600); //这里设置定时
+    },
+    //手释放，如果在500毫秒内就释放，则取消长按事件，此时可以执行onclick应该执行的事件
+    gotouchend() {
+      clearTimeout(timeOutEvent);
+      if (timeOutEvent != 0) {
+        //这里写要执行的内容（尤如onclick事件）
+      }
+    },
+    //如果手指有移动，则取消所有事件，此时说明用户只是要移动而不是长按
+    gotouchmove() {
+      clearTimeout(timeOutEvent); //清除定时器
+      timeOutEvent = 0;
+    },
+
     onClickRight() {
       this.$router.push("/editmessage");
     },
@@ -118,6 +136,8 @@ export default {
     //   alert("置顶");
     // },
     handleDelete(index, readRatio) {
+      this.span_width = this.width;
+      console.log(this.span_width);
       var a = readRatio.split("/");
       if (a[0] != a[1]) {
         this.$toast("消息正在送达中，禁止删除");
@@ -184,6 +204,11 @@ export default {
 
 .van-swipe-cell__right {
   width: 65px;
+  background: #f44;
+  text-align: center;
+  line-height: 65px;
+  color: white;
+  font-size: 20px;
 }
 .right {
   display: flex;
