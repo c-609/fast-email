@@ -18,9 +18,6 @@
                   :time="item.time"
                   :label="item.content|ellipsis"
                   @click="clickMessage(item)"
-                  @touchstart="gotouchstart"
-                  @touchmove="gotouchmove"
-                  @touchend="gotouchend"
                 ></base-cell>
               </van-cell-group>
               <span slot="right">
@@ -44,10 +41,10 @@ export default {
   components: {
     BaseCell
   },
+
   data() {
     return {
-      width: 65,
-      span_width: 65,
+      span_width: this.$store.state.width,
       active: 0,
       count: 0,
       isLoading: false,
@@ -56,6 +53,7 @@ export default {
     };
   },
   created() {
+    console.log(this.span_width);
     getSendList(0).then(res => {
       this.MessageList = res.data.data;
       var i = 0;
@@ -64,32 +62,19 @@ export default {
           this.MessageList[i].readNumber + "/" + this.MessageList[i].number;
       }
     });
-
-    var div = document.getElementById("right_span");
-    console.log(div);
-    var width = div.clientWidth || div.offsetWidth || div.scrollWidth;
-
-    alert("3343");
-    this.span_width = width;
-    console.log(this.span_width);
   },
   // 获取div宽度
-  mounted() {
-    console.log(this.span_width);
+  // mounted() {
+  //   console.log(this.span_width);
 
-    setTimeout(function() {
-      var div = document.getElementById("right_span");
-      var width =
-        div.style.width ||
-        div.clientWidth ||
-        div.offsetWidth ||
-        div.scrollWidth;
-      alert("111");
-      this.span_width = width;
-      this.width = width;
-      console.log(this.span_width);
-    }, 1000);
-  },
+  //   var div = document.getElementById("right_span");
+  //   var width =
+  //     div.style.width || div.clientWidth || div.offsetWidth || div.scrollWidth;
+  //   alert("111");
+  //   this.span_width = width;
+  //   this.width = width;
+  //   console.log(this.span_width);
+  // },
   beforeDestroy() {
     eventBus.$emit("sendMsgContent", this.message);
   },
@@ -117,6 +102,7 @@ export default {
       clearTimeout(timeOutEvent);
       if (timeOutEvent != 0) {
         //这里写要执行的内容（尤如onclick事件）
+        alert("jjj");
       }
     },
     //如果手指有移动，则取消所有事件，此时说明用户只是要移动而不是长按

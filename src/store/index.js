@@ -17,6 +17,7 @@ export default new Vuex.Store({
     receiveNum: '',
     message: [],
     user: '',
+    width: 65,
   },
   mutations: {
     ReceiveNum(state, num) {
@@ -24,6 +25,9 @@ export default new Vuex.Store({
     },
     GetMessage(state, message) {
       state.message = message;
+    },
+    getWidth(state, width) {
+      state.width = width
     }
   }
 })

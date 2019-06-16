@@ -13,6 +13,19 @@
     </div>
     <van-button type="danger" class="loginBtn" @click="submit" :loading=loading  loading-type="spinner" loading-text="登录中..."> 登录</van-button>
     </div>
+
+    <van-swipe-cell
+              :right-width="span_width"
+             
+            >
+             
+                
+              <span slot="right">
+                <div id="right_span">
+                  <span >删除</span>
+                </div>
+              </span>
+            </van-swipe-cell>
   </div>
   
 </template>
@@ -29,8 +42,21 @@ export default {
          acount:'student1',
          password:'456',
          user: "",
+         span_width: 65,
      }
  },
+ mounted() {
+   var _this = this;
+
+    setTimeout(function(){
+      var div = document.getElementById("right_span");
+    var width =
+      div.style.width || div.clientWidth || div.offsetWidth || div.scrollWidth;
+   
+    this.span_width = width;
+    _this.$store.commit('getWidth', this.span_width)
+    },2000)
+  },
  beforeCreate(){
     let UserDataDB = null;
     let UserInfo = this.user;
@@ -164,6 +190,15 @@ export default {
 </script>
 
 <style>
+.van-swipe-cell__right {
+  width: 65px;
+  background: #f44;
+  text-align: center;
+  line-height: 65px;
+  color: white;
+  font-size: 20px;
+}
+
 .login-container{
   margin-left: 30px;
   margin-top: -25px;

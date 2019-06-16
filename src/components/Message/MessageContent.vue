@@ -43,7 +43,7 @@
 
               <span slot="right">
                 <div id="right_span">
-                  <span class="delete" @click="handleDelete(item.id,index,item.status)">删除</span>
+                  <span @click="handleDelete(item.id,index,item.status)">删除</span>
                 </div>
               </span>
             </van-swipe-cell>
@@ -81,7 +81,7 @@ export default {
         "信息院丁老师"
       ],
       activeNames: ["1"],
-      span_width: 65,
+      span_width: this.$store.state.width,
       active: 0,
       count: 0,
       isLoading: false,
