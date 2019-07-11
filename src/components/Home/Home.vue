@@ -2,18 +2,12 @@
   <div>
     <router-view class="body-main"></router-view>
 
-    <van-tabbar
-      v-model="active"
-      :change="change(active)"
-      style="background:#F2F2F2"
-      class="footer"
-      v-show="hidshow"
-    >
-      <van-tabbar-item icon="home-o" to="/homecontent">主页</van-tabbar-item>
-      <van-tabbar-item icon="comment-o" to="/messagecontent">接收</van-tabbar-item>
-    
-      <van-tabbar-item icon="upgrade" to="/sendlist">发出</van-tabbar-item>
-      <van-tabbar-item icon="user-o" to="/minecontent">我</van-tabbar-item>
+    <van-tabbar v-model="active" :change="change(active)" style="background:#F2F2F2" class="footer">
+      <van-tabbar-item id="home" icon="home-o">主页</van-tabbar-item>
+      <van-tabbar-item id="receive" icon="comment-o">接收</van-tabbar-item>
+
+      <van-tabbar-item id="send" icon="upgrade">发出</van-tabbar-item>
+      <van-tabbar-item id="mine" icon="user-o">我</van-tabbar-item>
     </van-tabbar>
   </div>
 </template>
@@ -24,7 +18,7 @@ export default {
   data() {
     return {
       receiveNum: "",
-      active: 0,
+      active: this.$store.state.active,
       docmHeight: "0", //默认屏幕高度
 
       showHeight: "0", //实时屏幕高度
@@ -36,7 +30,14 @@ export default {
   },
   mounted() {
     // window.onresize监听页面高度的变化
-
+    if (this.active == 0)
+      document.getElementById("home").style = "color:#1989fa";
+    else if (this.active == 1)
+      document.getElementById("receive").style = "color:#1989fa";
+    else if (this.active == 2)
+      document.getElementById("send").style = "color:#1989fa";
+    else if (this.active == 3)
+      document.getElementById("mine").style = "color:#1989fa";
     window.onresize = () => {
       return (() => {
         if (!this.isResize) {
@@ -70,7 +71,16 @@ export default {
         });
       }
     );
-    this.$router.push("/homecontent");
+
+    if (this.active == 0) {
+      this.$router.push("/homecontent");
+    } else if (this.active == 1) {
+      this.$router.push("/messagecontent");
+    } else if (this.active == 2) {
+      this.$router.push("/sendlist");
+    } else {
+      this.$router.push("/minecontent");
+    }
   },
   watch: {
     showHeight: function() {
@@ -84,7 +94,14 @@ export default {
 
   methods: {
     change(active) {
-      if (active == 1) {
+      if (active == 0) {
+        this.$router.push("/homecontent");
+      } else if (active == 1) {
+        this.$router.push("/messagecontent");
+      } else if (this.active == 2) {
+        this.$router.push("/sendlist");
+      } else {
+        this.$router.push("/minecontent");
       }
     }
   }

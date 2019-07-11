@@ -14,13 +14,13 @@
       <van-collapse v-model="activeName" accordion>
         <van-collapse-item :title="title" name="1">
           发布时间 : {{time}}
-          <br>
+          <br />
           发布人 : {{senderName}}
         </van-collapse-item>
       </van-collapse>
       <div class="blank"></div>
       <van-cell title="通知内容："></van-cell>
-      <van-field v-model="content" type="textarea" disabled rows="15"/>
+      <van-field v-model="content" type="textarea" disabled rows="15" />
       <!-- <p class>{{content}}</p> -->
     </div>
   </div>
@@ -44,7 +44,6 @@ export default {
   },
 
   created() {
-   
     eventBus.$on("message", res => {
       console.log(res);
       this.title = res.title;
@@ -58,18 +57,18 @@ export default {
       let TestDB = null;
       let _this = this;
       IndexedDB.openDB(
-      "TestDB",
-      1, 
-      TestDB,
-      {
-        name: "Test",
-        key: "id"
-      },
-      function(db) {
-        let TestDB = db;
-        IndexedDB.updateStatus(TestDB, "Test",_this.mid, 1)   
-      }
-    );
+        "TestDB",
+        1,
+        TestDB,
+        {
+          name: "Test",
+          key: "id"
+        },
+        function(db) {
+          let TestDB = db;
+          IndexedDB.updateStatus(TestDB, "Test", _this.mid, 1);
+        }
+      );
     });
   },
   beforeDestroy() {
@@ -77,7 +76,9 @@ export default {
   },
   methods: {
     onClickLeft() {
-      this.$router.go(-1);
+      this.$store.commit("getActive", "1");
+      // this.$router.go(-1);
+      this.$router.push("/home");
       // eventBus.$off("/message");
     },
     onClickRight() {

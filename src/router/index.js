@@ -26,6 +26,25 @@ export default new Router({
       component: RecyclingMsg
     },
     {
+      path: '/message',
+      name: 'Message',
+      component: Message
+    },
+    {
+      path: '/sendmsgcontent',
+      name: 'SendMsgContent',
+      component: SendMsgContent
+    }, {
+      path: '/editmessage',
+      name: 'EditMessage',
+      component: EditMessage
+    },
+    {
+      path: '/editmine',
+      name: 'EditMine',
+      component: EditMine
+    },
+    {
       path: '/',
       name: 'Login',
       component: Login
@@ -39,11 +58,7 @@ export default new Router({
           name: 'HomeContent',
           component: HomeContent
         },
-        {
-          path: '/message',
-          name: 'Message',
-          component: Message
-        },
+
         {
           path: '/messagecontent',
           name: 'MessageContent',
@@ -54,27 +69,14 @@ export default new Router({
           name: 'SendList',
           component: SendList,
         },
-        {
-          path: '/sendmsgcontent',
-          name: 'SendMsgContent',
-          component: SendMsgContent
-        },
-        {
-          path: '/editmessage',
-          name: 'EditMessage',
-          component: EditMessage
-        },
+
         {
           path: '/minecontent',
           name: 'MineContent',
           component: MineContent,
 
         },
-        {
-          path: '/editmine',
-          name: 'EditMine',
-          component: EditMine
-        },
+
       ]
     },
 

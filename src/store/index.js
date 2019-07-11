@@ -8,6 +8,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    active: 0,
     userName: '',
     roles: [],
     depts: [],
@@ -28,6 +29,9 @@ export default new Vuex.Store({
     },
     getWidth(state, width) {
       state.width = width
+    },
+    getActive(state, active) {
+      state.active = active;
     }
   }
 })

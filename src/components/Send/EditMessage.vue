@@ -15,7 +15,7 @@
     </div>
     <div class="message_content_div">
       <van-cell-group>
-        <van-field v-model="message_title" clearable label="标题：" placeholder="请输入标题"/>
+        <van-field v-model="message_title" clearable label="标题：" placeholder="请输入标题" />
         <van-field
           readonly
           v-model="senderIdentity"
@@ -39,7 +39,7 @@
         />
         <div class="blank"></div>
         <van-cell title="通知内容："></van-cell>
-        <van-field v-model="message_content" type="textarea" placeholder="请输入通知内容" rows="15"/>
+        <van-field v-model="message_content" type="textarea" placeholder="请输入通知内容" rows="15" />
       </van-cell-group>
 
       <van-popup v-model="showSender" class="tree-select">
@@ -194,7 +194,9 @@ export default {
       this.showRecipient = true;
     },
     onClickLeft() {
-      this.$router.go(-1);
+      this.$store.commit("getActive", "2");
+      // this.$router.go(-1);
+      this.$router.push("/home");
     },
     sendMessage() {
       console.log(this.message_title);

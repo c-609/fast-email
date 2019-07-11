@@ -14,9 +14,9 @@
       <van-collapse v-model="activeName1" accordion>
         <van-collapse-item :title="title" name="1">
           发布时间 : {{time}}
-          <br>
+          <br />
           发布人 : {{senderName}}
-          <br>
+          <br />
           收件人 : {{recipient}}
         </van-collapse-item>
       </van-collapse>
@@ -27,7 +27,7 @@
 
       <div class="blank"></div>
       <van-cell title="通知内容："></van-cell>
-      <van-field v-model="content" type="textarea" rows="15"/>
+      <van-field v-model="content" type="textarea" rows="15" />
     </div>
   </div>
 </template>
@@ -74,7 +74,9 @@ export default {
   },
   methods: {
     onClickLeft() {
-      this.$router.go(-1);
+      this.$store.commit("getActive", "2");
+      // this.$router.go(-1);
+      this.$router.push("/home");
       eventBus.$off("/sendMsgContnet");
     },
     onClickRight() {

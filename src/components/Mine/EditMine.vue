@@ -15,12 +15,12 @@
     </div>
 
     <div class="message_content_div">
-      <van-field v-model="message_title" clearable label="姓名" placeholder="请输入姓名"/>
+      <van-field v-model="message_title" clearable label="姓名" placeholder="请输入姓名" />
       <!-- <van-cell title="身份" is-link value="查看您的发件身份"/> -->
       <div class="blank"></div>
-      <van-field v-model="message_title" clearable label="电话" placeholder="请输入电话"/>
+      <van-field v-model="message_title" clearable label="电话" placeholder="请输入电话" />
       <div class="blank"></div>
-      <van-field v-model="message_title" clearable label="QQ" placeholder="请输入QQ"/>
+      <van-field v-model="message_title" clearable label="QQ" placeholder="请输入QQ" />
       <div class="blank"></div>
     </div>
   </div>
@@ -36,7 +36,9 @@ export default {
 
   methods: {
     comeBack() {
-      this.$router.go(-1);
+      this.$store.commit("getActive", "3");
+      // this.$router.go(-1);
+      this.$router.push("/home");
     },
     edit() {}
   }
