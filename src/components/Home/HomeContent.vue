@@ -25,7 +25,7 @@
                     <base-cell
                       clickable
                       :title="item.title"
-                      :value="item.readRatio"
+                      :value="item.ratio"
                       :time="item.time"
                       :label="item.content|ellipsis"
                       @click="clickmessage(item)"
@@ -93,10 +93,12 @@ export default {
     var i = 0;
     console.log(res.data.data)
     for(i=0;i<SMsg.length;i++){
-      if(SMsg[i].readNumber > SMsg[i].number){
+      if(SMsg[i].readNumber < SMsg[i].number){
+        SMsg[i].ratio = SMsg[i].readNumber+"/"+SMsg[i].number
         this.SendingMsg.unshift(SMsg[i]);
       }
     }
+    console.log(this.SendingMsg)
     this.sendNumber = this.SendingMsg.length;
   });
   },

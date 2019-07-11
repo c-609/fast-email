@@ -11,7 +11,7 @@
     >
       <van-tabbar-item icon="home-o" to="/homecontent">主页</van-tabbar-item>
       <van-tabbar-item icon="comment-o" to="/messagecontent">接收</van-tabbar-item>
-      <van-tabbar-item icon="friends-o" style="background:#ff4444;color:white;">盆友</van-tabbar-item>
+    
       <van-tabbar-item icon="upgrade" to="/sendlist">发出</van-tabbar-item>
       <van-tabbar-item icon="user-o" to="/minecontent">我</van-tabbar-item>
     </van-tabbar>
