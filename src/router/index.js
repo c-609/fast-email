@@ -11,6 +11,7 @@ import EditMessage from './../components/Send/EditMessage.vue'
 import EditMine from './../components/Mine/EditMine.vue'
 import SendMsgContent from './../components/Send/SendMsgContent.vue'
 import Recycling from './../components/Mine/Recycling.vue'
+import RecyclingMsg from './../components/Mine/RecyclingMsg.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -18,6 +19,11 @@ export default new Router({
       path: '/recycling',
       name: 'Recycling',
       component: Recycling
+    },
+    {
+      path: '/recyclingmsg',
+      name: 'RecyclingMsg',
+      component: RecyclingMsg
     },
     {
       path: '/',

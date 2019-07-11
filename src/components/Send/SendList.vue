@@ -8,8 +8,8 @@
     <div class="contenet">
       <van-pull-refresh class="main" v-model="isLoading" @refresh="onRefresh">
         <div>
-          <van-list v-for="(item,index) in MessageList" :key="index" @click="get(item.title)">
-            <van-swipe-cell :right-width="span_width">
+          <van-list v-for="(item,index) in MessageList" :key="index">
+            <van-swipe-cell >
               <van-cell-group>
                 <base-cell
                   clickable
@@ -20,11 +20,7 @@
                   @click="clickMessage(item)"
                 ></base-cell>
               </van-cell-group>
-              <span slot="right">
-                <div id="right_span">
-                  <span @click="handleDelete(index,item.readRatio)">删除</span>
-                </div>
-              </span>
+            
             </van-swipe-cell>
           </van-list>
         </div>
@@ -97,25 +93,6 @@ export default {
     clickMessage(message) {
       this.message = message;
       this.$router.push("/sendmsgcontent");
-    },
-    // handleTop(index) {
-    //   alert("置顶");
-    // },
-    handleDelete(index, readRatio) {
-      this.span_width = this.width;
-      console.log(this.span_width);
-      var a = readRatio.split("/");
-      if (a[0] != a[1]) {
-        this.$toast("消息正在送达中，禁止删除");
-      } else {
-        getSendList(-1).then(res => {
-          if (res.data.code == 0) {
-            this.MessageList.splice(index, 1);
-          } else {
-            this.$toast("删除失败！");
-          }
-        });
-      }
     },
     onRefresh() {
       
