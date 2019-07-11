@@ -10,7 +10,7 @@
         <van-cell title="姓名" icon="manager-o" :value="userName" size="large"/>
         <div class="blank"></div>
 
-        <van-cell icon="idcard">
+        <van-cell icon="idcard" class="shenfenheight">
           <van-dropdown-menu class="identity">
             <van-dropdown-item class="identity-drop" title="身份" :options="roles"/>
           </van-dropdown-menu>
@@ -110,6 +110,7 @@ export default {
 </script>
 
 <style >
+
 .personal {
   height: 100%;
   background-color: white;
@@ -129,12 +130,13 @@ export default {
   padding: 14px 0 0 15px;
 }
 .identity .van-dropdown-menu {
-  height: 25px;
+  height: 15px;
 }
 .identity .van-dropdown-menu__title {
-  left: -40px;
+  left: 8px;
   padding-right: 200px;
-  height: 25px;
+  height: 15px;
+  position: absolute
 }
 /* .van-cell__value--alone {
   height: 25px;

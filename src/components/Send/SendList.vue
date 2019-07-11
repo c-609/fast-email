@@ -44,7 +44,7 @@ export default {
 
   data() {
     return {
-      span_width: this.$store.state.width,
+      span_width: localStorage.getItem("width"),
       active: 0,
       count: 0,
       isLoading: false,
@@ -53,7 +53,7 @@ export default {
     };
   },
   created() {
-    console.log(this.span_width);
+   
     getSendList(0).then(res => {
       this.MessageList = res.data.data;
       var i = 0;
@@ -88,28 +88,8 @@ export default {
     }
   },
   methods: {
-    gotouchstart() {
-      let that = this;
-      clearTimeout(timeOutEvent); //清除定时器
-      timeOutEvent = 0;
-      timeOutEvent = setTimeout(function() {
-        //执行长按要执行的内容，
-        alert("rrr");
-      }, 600); //这里设置定时
-    },
-    //手释放，如果在500毫秒内就释放，则取消长按事件，此时可以执行onclick应该执行的事件
-    gotouchend() {
-      clearTimeout(timeOutEvent);
-      if (timeOutEvent != 0) {
-        //这里写要执行的内容（尤如onclick事件）
-        alert("jjj");
-      }
-    },
-    //如果手指有移动，则取消所有事件，此时说明用户只是要移动而不是长按
-    gotouchmove() {
-      clearTimeout(timeOutEvent); //清除定时器
-      timeOutEvent = 0;
-    },
+  
+ 
 
     onClickRight() {
       this.$router.push("/editmessage");
@@ -138,15 +118,34 @@ export default {
       }
     },
     onRefresh() {
-      setTimeout(() => {
-        this.$notify({
+      
+      getSendList(0).then(res => {
+        console.log(res.data.code)
+        if(res.data.code == 0){
+       
+          this.MessageList = res.data.data;
+          var i = 0;
+          for (i; i < this.MessageList.length; i++) {
+            this.MessageList[i].readRatio =
+              this.MessageList[i].readNumber + "/" + this.MessageList[i].number;
+          }
+          this.$notify({
           message: "刷新成功",
           duration: 500,
           background: "#1989fa"
-        });
-        this.isLoading = false;
-        this.count++;
-      }, 500);
+          });
+          this.isLoading = false;
+        }else{
+           this.$notify({
+            message: "刷新失败，请重试",
+            duration: 500,
+            background: "#F56C6C"
+            });
+          this.isLoading = false;
+        }
+  
+    });
+      
     },
     onClose(clickPosition, instance) {
       switch (clickPosition) {

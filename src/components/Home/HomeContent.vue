@@ -2,16 +2,12 @@
   <div>
     <div>
       <van-nav-bar title="主页" :fixed="true" class="content_nav_bar">
-        <van-icon name="ellipsis" slot="right"/>
+       
       </van-nav-bar>
     </div>
     <div class="contenet">
       <van-pull-refresh class="main" v-model="isLoading" @refresh="onRefresh">
-        <van-notice-bar
-          left-icon="volume-o"
-          mode="closeable"
-          class="notice"
-        >足协杯战线连续第2年上演广州德比战，上赛季半决赛上恒大以两回合5-3的总比分淘汰富力。</van-notice-bar>
+      
 
         <div>
           <van-collapse v-model="activeNames">
@@ -20,6 +16,23 @@
                 通知送达中
                 <span class="number">{{sendNumber}}</span>
               </div>
+               <van-list>
+                <van-swipe-cell
+                  v-for="(item,index) in SendingMsg"
+                  :key="index"
+                >
+                  <van-cell-group>
+                    <base-cell
+                      clickable
+                      :title="item.title"
+                      :value="item.readRatio"
+                      :time="item.time"
+                      :label="item.content|ellipsis"
+                      @click="clickmessage(item)"
+                    ></base-cell>
+                  </van-cell-group>
+                </van-swipe-cell>
+              </van-list>
             </van-collapse-item>
             <van-collapse-item name="2">
               <div slot="title">
@@ -64,6 +77,7 @@ import eventBus from "../../utils/eventBus";
 import BasePanel from "../Common/BasePanel";
 import BaseCell from "../Common/BaseCell";
 import { getNoReadMsg } from "../../api/home.js";
+import {getSendList} from "../../api/send";
 export default {
   components: {
     BasePanel,
@@ -74,9 +88,21 @@ export default {
       this.messageList = res.data.data;
       this.receiptNumber = this.messageList.length;
     });
+    getSendList(0).then(res => {
+    var SMsg = res.data.data;
+    var i = 0;
+    console.log(res.data.data)
+    for(i=0;i<SMsg.length;i++){
+      if(SMsg[i].readNumber > SMsg[i].number){
+        this.SendingMsg.unshift(SMsg[i]);
+      }
+    }
+    this.sendNumber = this.SendingMsg.length;
+  });
   },
   data() {
     return {
+      SendingMsg:[],
       receiptNumber:0,
       sendNumber: "",
       span_width: 130,

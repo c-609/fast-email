@@ -2,7 +2,7 @@
   <div>
     <div>
       <van-nav-bar title="收件箱" :fixed="true" class="content_nav_bar">
-        <van-icon name="ellipsis" slot="right"/>
+       
       </van-nav-bar>
     </div>
 
@@ -81,7 +81,7 @@ export default {
         "信息院丁老师"
       ],
       activeNames: ["1"],
-      span_width: this.$store.state.width,
+      span_width: localStorage.getItem("width"),
       active: 0,
       count: 0,
       isLoading: false,
@@ -129,11 +129,7 @@ export default {
 
   //获取div宽度
   mounted() {
-    var div = document.getElementById("right_span");
-    var width =
-      div.style.width || div.clientWidth || div.offsetWidth || div.scrollWidth;
-    this.span_width = width;
-    console.log(width);
+   
   },
   beforeDestroy() {
     eventBus.$emit("message", this.message);

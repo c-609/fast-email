@@ -54,6 +54,7 @@ export default {
       div.style.width || div.clientWidth || div.offsetWidth || div.scrollWidth;
    
     this.span_width = width;
+    localStorage.setItem("width",width);
     _this.$store.commit('getWidth', this.span_width)
     },2000)
   },
@@ -71,7 +72,8 @@ export default {
     },
     function(db) {
       let UserDataDB = db; 
-      IndexedDB.getAllData(UserDataDB, "UserData",function(result){
+      IndexedDB.getAllUserData(UserDataDB, "UserData",function(result){
+        console.log(result)
         let uname = result[0].username;
         let password = result[0].password;
         if(uname!=null && password!=null){
