@@ -1,9 +1,7 @@
 <template>
   <div>
     <div>
-      <van-nav-bar title="收件箱" :fixed="true" class="content_nav_bar">
-       
-      </van-nav-bar>
+      <van-nav-bar title="收件箱" :fixed="true" class="content_nav_bar" style="background:#F2F2F2"></van-nav-bar>
     </div>
 
     <div class="contenet">
@@ -29,17 +27,15 @@
         <div class="accept-message">
           <van-list v-for="(item,index) in messageList" :key="index" @click="get(item.title)">
             <van-swipe-cell :right-width="span_width">
-              <van-cell-group>
-                <base-cell
-                  clickable
-                  :title="item.title"
-                  :value="item.status"
-                  :time="item.time"
-                  :label="item.content|ellipsis"
-                  @click="clickmessage(item)"
-                ></base-cell>
-                <!-- <van-panel :title=item.title :desc=item.desc :status=item.status > </van-panel> -->
-              </van-cell-group>
+              <base-cell
+                clickable
+                :title="item.title"
+                :value="item.status"
+                :time="item.time"
+                :label="item.content|ellipsis"
+                @click="clickmessage(item)"
+              ></base-cell>
+              <!-- <van-panel :title=item.title :desc=item.desc :status=item.status > </van-panel> -->
 
               <span slot="right">
                 <div id="right_span">
@@ -271,8 +267,7 @@ export default {
     },
     onRefresh() {
       this.getData();
-    },
-
+    }
   }
 };
 </script>
@@ -307,7 +302,9 @@ export default {
   /* margin-top: 50px; */
   height: 40px;
 }
-
+.van-hairline--top-bottom::after {
+  border: none;
+}
 .notice {
   height: 25px;
   font-size: 10px;

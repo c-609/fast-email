@@ -1,26 +1,29 @@
 <template>
   <div>
     <div>
-      <van-nav-bar title="已发出" :fixed="true" class="content_nav_bar" @click-right="onClickRight">
-        <van-icon name="edit" slot="right" size="large"/>
+      <van-nav-bar
+        title="已发出"
+        :fixed="true"
+        class="content_nav_bar"
+        style="background:#F2F2F2"
+        @click-right="onClickRight"
+      >
+        <van-icon name="edit" slot="right" size="large" />
       </van-nav-bar>
     </div>
     <div class="contenet">
       <van-pull-refresh class="main" v-model="isLoading" @refresh="onRefresh">
         <div>
           <van-list v-for="(item,index) in MessageList" :key="index">
-            <van-swipe-cell >
-              <van-cell-group>
-                <base-cell
-                  clickable
-                  :title="item.title"
-                  :value="item.readRatio"
-                  :time="item.time"
-                  :label="item.content|ellipsis"
-                  @click="clickMessage(item)"
-                ></base-cell>
-              </van-cell-group>
-            
+            <van-swipe-cell>
+              <base-cell
+                clickable
+                :title="item.title"
+                :value="item.readRatio"
+                :time="item.time"
+                :label="item.content|ellipsis"
+                @click="clickMessage(item)"
+              ></base-cell>
             </van-swipe-cell>
           </van-list>
         </div>
@@ -49,7 +52,6 @@ export default {
     };
   },
   created() {
-   
     getSendList(0).then(res => {
       this.MessageList = res.data.data;
       var i = 0;
@@ -84,9 +86,6 @@ export default {
     }
   },
   methods: {
-  
- 
-
     onClickRight() {
       this.$router.push("/editmessage");
     },
@@ -95,11 +94,9 @@ export default {
       this.$router.push("/sendmsgcontent");
     },
     onRefresh() {
-      
       getSendList(0).then(res => {
-        console.log(res.data.code)
-        if(res.data.code == 0){
-       
+        console.log(res.data.code);
+        if (res.data.code == 0) {
           this.MessageList = res.data.data;
           var i = 0;
           for (i; i < this.MessageList.length; i++) {
@@ -107,22 +104,20 @@ export default {
               this.MessageList[i].readNumber + "/" + this.MessageList[i].number;
           }
           this.$notify({
-          message: "刷新成功",
-          duration: 500,
-          background: "#1989fa"
+            message: "刷新成功",
+            duration: 500,
+            background: "#1989fa"
           });
           this.isLoading = false;
-        }else{
-           this.$notify({
+        } else {
+          this.$notify({
             message: "刷新失败，请重试",
             duration: 500,
             background: "#F56C6C"
-            });
+          });
           this.isLoading = false;
         }
-  
-    });
-      
+      });
     },
     onClose(clickPosition, instance) {
       switch (clickPosition) {

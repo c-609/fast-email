@@ -9,18 +9,19 @@
       @click-left="onClickLeft"
       @click-right="onClickRight"
       class="message_top"
+      style="background:#F2F2F2"
     />
     <div class="detail">
       <van-collapse v-model="activeName" accordion>
         <van-collapse-item :title="title" name="1">
           发布时间 : {{time}}
-          <br>
+          <br />
           发布人 : {{senderName}}
         </van-collapse-item>
       </van-collapse>
       <div class="blank"></div>
       <van-cell title="通知内容："></van-cell>
-      <van-field v-model="content" type="textarea" disabled rows="15"/>
+      <van-field v-model="content" type="textarea" disabled rows="15" />
       <!-- <p class>{{content}}</p> -->
     </div>
   </div>
@@ -44,7 +45,6 @@ export default {
   },
 
   created() {
-   
     eventBus.$on("message", res => {
       console.log(res);
       this.title = res.title;
@@ -53,7 +53,7 @@ export default {
       this.content = res.content;
       this.status = res.status;
       this.mid = res.id;
-    })
+    });
   },
   beforeDestroy() {
     eventBus.$off("message");

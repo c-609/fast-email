@@ -7,7 +7,9 @@ import router from "./router";
 import Vant from "vant";
 import "vant/lib/index.css";
 import Axios from "axios";
-import { Tree } from "element-ui";
+import {
+  Tree
+} from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import store from "./store/index";
 Vue.use(Tree);

@@ -7,6 +7,7 @@
         title="编辑通知"
         :fixed="true"
         class="content_nav_bar"
+        style="background:#F2F2F2"
         @click-left="onClickLeft"
       >
         <!-- <van-icon name="edit" slot="right" /> -->
@@ -243,7 +244,9 @@ export default {
                 deptIds
               ).then(res => {
                 if (res.data.code == "0") {
-                  this.$router.go(-1);
+                  // this.$router.go(-1);
+                  this.$store.commit("getActive", "2");
+                  this.$router.push("/home");
                   this.$toast("发送成功");
                 }
               });

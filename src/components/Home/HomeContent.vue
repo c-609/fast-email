@@ -1,14 +1,10 @@
 <template>
   <div>
     <div>
-      <van-nav-bar title="主页" :fixed="true" class="content_nav_bar">
-       
-      </van-nav-bar>
+      <van-nav-bar title="主页" :fixed="true" class="content_nav_bar" style="background:#f2f2f2"></van-nav-bar>
     </div>
     <div class="contenet">
       <van-pull-refresh class="main" v-model="isLoading" @refresh="onRefresh">
-      
-
         <div>
           <van-collapse v-model="activeNames">
             <van-collapse-item name="1">
@@ -16,21 +12,16 @@
                 通知送达中
                 <span class="number">{{sendNumber}}</span>
               </div>
-               <van-list>
-                <van-swipe-cell
-                  v-for="(item,index) in SendingMsg"
-                  :key="index"
-                >
-                  <van-cell-group>
-                    <base-cell
-                      clickable
-                      :title="item.title"
-                      :value="item.ratio"
-                      :time="item.time"
-                      :label="item.content|ellipsis"
-                      @click="clickmessage(item)"
-                    ></base-cell>
-                  </van-cell-group>
+              <van-list>
+                <van-swipe-cell v-for="(item,index) in SendingMsg" :key="index">
+                  <base-cell
+                    clickable
+                    :title="item.title"
+                    :value="item.ratio"
+                    :time="item.time"
+                    :label="item.content|ellipsis"
+                    @click="clickSend(item)"
+                  ></base-cell>
                 </van-swipe-cell>
               </van-list>
             </van-collapse-item>
@@ -40,22 +31,17 @@
                 <span class="number">{{receiptNumber}}</span>
               </div>
               <van-list>
-                <van-swipe-cell
-                  
-                  v-for="(item,index) in messageList"
-                  :key="index"
-                >
-                  <van-cell-group>
-                    <base-cell
-                      clickable
-                      :title="item.title"
-                      value="未读"
-                      :time="item.time"
-                      :label="item.content|ellipsis"
-                      @click="clickmessage(item)"
-                    ></base-cell>
-                    <!-- <base-panel @click="detail(item)" :title=item.sender :desc=item.title|ellipsis :status=item.status  :time="item.time"></base-panel> -->
-                  </van-cell-group>
+                <van-swipe-cell v-for="(item,index) in messageList" :key="index">
+                  <base-cell
+                    clickable
+                    :title="item.title"
+                    value="未读"
+                    :time="item.time"
+                    :label="item.content|ellipsis"
+                    @click="clickmessage(item)"
+                  ></base-cell>
+                  <!-- <base-panel @click="detail(item)" :title=item.sender :desc=item.title|ellipsis :status=item.status  :time="item.time"></base-panel> -->
+
                   <!-- <span slot="right">
                     <div id="right_span">
                       <span class="top" @click="handleTop(index)">置顶</span>
@@ -77,7 +63,7 @@ import eventBus from "../../utils/eventBus";
 import BasePanel from "../Common/BasePanel";
 import BaseCell from "../Common/BaseCell";
 import { getNoReadMsg } from "../../api/home.js";
-import {getSendList} from "../../api/send";
+import { getSendList } from "../../api/send";
 export default {
   components: {
     BasePanel,
@@ -89,29 +75,30 @@ export default {
       this.receiptNumber = this.messageList.length;
     });
     getSendList(0).then(res => {
-    var SMsg = res.data.data;
-    var i = 0;
-    console.log(res.data.data)
-    for(i=0;i<SMsg.length;i++){
-      if(SMsg[i].readNumber < SMsg[i].number){
-        SMsg[i].ratio = SMsg[i].readNumber+"/"+SMsg[i].number
-        this.SendingMsg.unshift(SMsg[i]);
+      var SMsg = res.data.data;
+      var i = 0;
+      console.log(res.data.data);
+      for (i = 0; i < SMsg.length; i++) {
+        if (SMsg[i].readNumber < SMsg[i].number) {
+          SMsg[i].ratio = SMsg[i].readNumber + "/" + SMsg[i].number;
+          this.SendingMsg.unshift(SMsg[i]);
+        }
       }
-    }
-    console.log(this.SendingMsg)
-    this.sendNumber = this.SendingMsg.length;
-  });
+      console.log(this.SendingMsg);
+      this.sendNumber = this.SendingMsg.length;
+    });
   },
   data() {
     return {
-      SendingMsg:[],
-      receiptNumber:0,
+      SendingMsg: [],
+      receiptNumber: 0,
       sendNumber: "",
       span_width: 130,
       active: 0,
       activeNames: ["1", "2"],
       count: 0,
       isLoading: false,
+      sendingmessage: "",
       message: "",
       messageList: []
     };
@@ -124,7 +111,8 @@ export default {
   //   this.span_width = width;
   // },
   beforeDestroy() {
-    eventBus.$emit("message", this.message);
+    eventBus.$emit("message", this.message, "0");
+    eventBus.$emit("sendMsgContent", this.sendingmessage, "0");
   },
   filters: {
     ellipsis(value) {
@@ -136,6 +124,10 @@ export default {
     }
   },
   methods: {
+    clickSend(message) {
+      this.sendingmessage = message;
+      this.$router.push("/sendmsgcontent");
+    },
     clickmessage(message) {
       this.message = message;
       this.$router.push("/message");
@@ -148,29 +140,26 @@ export default {
     //   alert("删除");
     // },
     onRefresh() {
-      
       getNoReadMsg(0).then(res => {
-      if(res.data.code == 0){
-        this.$notify({
-          message: "刷新成功",
-          duration: 500,
-          background: "#1989fa"
-        });
-        this.isLoading = false;
-        this.count++;
-      }else{
-        this.$notify({
-          message: "刷新失败，请重试",
-          duration: 500,
-          background: "#F56C6C"
-        });
-        this.isLoading = false;
-        this.count++;
-      }
-      this.messageList = res.data.data;
-    });
-      
-     
+        if (res.data.code == 0) {
+          this.$notify({
+            message: "刷新成功",
+            duration: 500,
+            background: "#1989fa"
+          });
+          this.isLoading = false;
+          this.count++;
+        } else {
+          this.$notify({
+            message: "刷新失败，请重试",
+            duration: 500,
+            background: "#F56C6C"
+          });
+          this.isLoading = false;
+          this.count++;
+        }
+        this.messageList = res.data.data;
+      });
     },
     onClose(clickPosition, instance) {
       switch (clickPosition) {
@@ -220,7 +209,12 @@ export default {
   display: none;
 }
 .van-cell:not(:last-child)::after {
-  border-bottom-color: white;
+  /* border-bottom-color: red; */
+  border: none;
+  /* border-bottom-width: 0px; */
+}
+.van-hairline--top-bottom::after {
+  border: none;
 }
 .van-swipe-cell__right {
   width: 130px;

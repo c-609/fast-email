@@ -7,6 +7,7 @@
         title="修改信息"
         :fixed="true"
         class="content_nav_bar"
+        style="background:#F2F2F2"
         @click-left="comeBack()"
       >
         <!-- <van-icon name="edit" slot="right" /> -->

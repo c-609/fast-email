@@ -46,6 +46,8 @@ export default {
      }
  },
  mounted() {
+    var clientHeight0 = `${document.documentElement.clientHeight}`; //document.body.clientWidth;
+    localStorage.setItem("height", clientHeight0);
    var _this = this;
 
     setTimeout(function(){

@@ -1,26 +1,31 @@
 <template >
   <div class="personal">
     <div>
-      <van-nav-bar title="我的" :fixed="true" class="content_nav_bar" @click-right="onClickRight">
-        <van-icon name="edit" slot="right" size="large"/>
+      <van-nav-bar
+        title="我的"
+        :fixed="true"
+        class="content_nav_bar"
+        style="background:#F2F2F2"
+        @click-right="onClickRight"
+      >
+        <van-icon name="edit" slot="right" size="large" />
       </van-nav-bar>
     </div>
     <div class="mine_content">
       <van-cell-group>
-        <van-cell title="姓名" icon="manager-o" :value="userName" size="large"/>
+        <van-cell title="姓名" icon="manager-o" :value="userName" size="large" />
         <div class="blank"></div>
+        <van-icon name="idcard" class="idcard" size="large"></van-icon>
+        <van-dropdown-menu class="identity">
+          <van-dropdown-item class="identity-drop" title="身份" :options="roles" />
+        </van-dropdown-menu>
 
-        <van-cell icon="idcard" class="shenfenheight">
-          <van-dropdown-menu class="identity">
-            <van-dropdown-item class="identity-drop" title="身份" :options="roles"/>
-          </van-dropdown-menu>
-        </van-cell>
         <div class="blank"></div>
-        <van-cell title="电话1" icon="phone-circle-o" is-link value="0732-84802007" size="large"/>
+        <van-cell title="电话1" icon="phone-circle-o" is-link value="0732-84802007" size="large" />
         <div class="blank"></div>
-        <van-cell title="电话2" icon="phone-circle-o" is-link value="0732-84802007" size="large"/>
+        <van-cell title="电话2" icon="phone-circle-o" is-link value="0732-84802007" size="large" />
         <div class="blank"></div>
-        <van-cell title="回收站" icon="delete" is-link value="查看已删除通知" size="large" to="/recycling"/>
+        <van-cell title="回收站" icon="delete" is-link value="查看已删除通知" size="large" to="/recycling" />
         <div class="blank"></div>
       </van-cell-group>
       <van-cell
@@ -34,7 +39,7 @@
       <div class="blank"></div>
       <van-popup v-model="show" position="left" class="shenfeng">
         身份信息
-        <van-picker :columns="columns"/>
+        <van-picker :columns="columns" />
       </van-popup>
     </div>
   </div>
@@ -110,7 +115,6 @@ export default {
 </script>
 
 <style >
-
 .personal {
   height: 100%;
   background-color: white;
@@ -122,27 +126,29 @@ export default {
 .mine_content {
   padding-top: 50px;
 }
+
 .identity {
   padding: 0;
-  height: 25px;
+  height: 45px;
 }
-.identity .van-cell__left-icon {
-  padding: 14px 0 0 15px;
+.identity-drop {
+  float: left;
+  top: 18px;
 }
-.identity .van-dropdown-menu {
-  height: 15px;
-}
-.identity .van-dropdown-menu__title {
-  left: 8px;
-  padding-right: 200px;
-  height: 15px;
-  position: absolute
+
+.idcard {
+  float: left;
+  padding-top: 18px;
+  padding-left: 15px;
 }
 /* .van-cell__value--alone {
   height: 25px;
 } */
+.identity .van-dropdown-menu__title {
+  left: -140px;
+}
 .identity .van-dropdown-menu__title::after {
-  left: 290px;
+  left: 280px;
 }
 .mine_content .van-hairline--top-bottom::after {
   border-width: 0 0;

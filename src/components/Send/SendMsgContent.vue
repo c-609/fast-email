@@ -9,6 +9,7 @@
       @click-left="onClickLeft"
       @click-right="onClickRight"
       class="message_top"
+      style="background:#F2F2F2"
     />
     <div class="detailed">
       <van-collapse v-model="activeName1" accordion>
@@ -27,7 +28,7 @@
 
       <div class="blank"></div>
       <van-cell title="通知内容："></van-cell>
-      <van-field v-model="content" type="textarea" rows="15" />
+      <van-field v-model="content" type="textarea" rows="15" disabled />
     </div>
   </div>
 </template>
@@ -48,12 +49,14 @@ export default {
       id: "",
       activeName2: "2",
       noRead: "未读人员：",
-      noReadList: " "
+      noReadList: " ",
+      flag: ""
     };
   },
 
   created() {
-    eventBus.$on("sendMsgContent", res => {
+    eventBus.$on("sendMsgContent", (res, flag) => {
+      this.flag = flag;
       this.title = res.title;
       this.senderName = res.senderName;
       this.recipient = res.dept.name;
@@ -74,7 +77,12 @@ export default {
   },
   methods: {
     onClickLeft() {
-      this.$store.commit("getActive", "2");
+      if (this.flag == "0") {
+        this.$store.commit("getActive", "0");
+      } else {
+        this.$store.commit("getActive", "2");
+      }
+
       // this.$router.go(-1);
       this.$router.push("/home");
       eventBus.$off("/sendMsgContnet");

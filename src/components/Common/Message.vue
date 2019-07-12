@@ -8,6 +8,7 @@
       left-arrow
       @click-left="onClickLeft"
       @click-right="onClickRight"
+      style="background:#F2F2F2"
       class="message_top"
     />
     <div class="detail">
@@ -39,13 +40,15 @@ export default {
       time: "",
       content: "",
       status: "",
-      mid: ""
+      mid: "",
+      flag: ""
     };
   },
 
   created() {
-    eventBus.$on("message", res => {
+    eventBus.$on("message", (res, flag) => {
       console.log(res);
+      this.flag = flag;
       this.title = res.title;
       this.senderName = res.senderName;
       this.time = res.time;
@@ -76,7 +79,11 @@ export default {
   },
   methods: {
     onClickLeft() {
-      this.$store.commit("getActive", "1");
+      if (this.flag == "0") {
+        this.$store.commit("getActive", "0");
+      } else {
+        this.$store.commit("getActive", "1");
+      }
       // this.$router.go(-1);
       this.$router.push("/home");
       // eventBus.$off("/message");
